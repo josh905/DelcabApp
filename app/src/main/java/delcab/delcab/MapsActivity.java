@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,6 +29,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button calcBtn;
     private LatLng startLoc, endLoc;
     private Address startAdr, endAdr;
+    private PlaceAutocompleteFragment collectionFrag, destinationFrag;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,17 +44,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        collectionText = findViewById(R.id.input_search);
+        //collectionText = findViewById(R.id.input_search);
 
-        calcBtn = findViewById(R.id.calcBtn);
+       //calcBtn = findViewById(R.id.calcBtn);
+
+     //   collectionFrag = findViewById(R.id.place_autocomplete_fragment);
 
         Print.out("Map has been created");
+
 
 
     }
 
     private void geoLocate(){
-
+/*
         Print.out("geo loc");
 
         String collectionSearch = collectionText.getText().toString();
@@ -110,7 +117,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         calc.addCalculation(startLoc, endLoc, 45);
 
 
-
+*/
     }
 
 
