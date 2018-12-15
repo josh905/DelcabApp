@@ -5,32 +5,57 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import delcab.delcab.directionhelpers.FetchURL;
+import delcab.delcab.directionhelpers.TaskLoadedCallback;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.maps.DirectionsApiRequest;
+import com.google.maps.GeoApiContext;
+import com.google.maps.PendingResult;
+import com.google.maps.model.DirectionsResult;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, TaskLoadedCallback {
 
     private GoogleMap mMap;
     private EditText collectionText, destinationText;
     private Button calcBtn;
     private LatLng startLoc, endLoc;
     private Address startAdr, endAdr;
-    private PlaceAutocompleteFragment collectionFrag, destinationFrag;
+    private GeoApiContext geoCon;
 
+    private MarkerOptions startMark, endMark;
+    private Polyline currentPolyline;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,20 +69,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        //collectionText = findViewById(R.id.input_search);
+        collectionText = findViewById(R.id.input_search);
+        destinationText = findViewById(R.id.input_search2);
 
-       //calcBtn = findViewById(R.id.calcBtn);
-
-     //   collectionFrag = findViewById(R.id.place_autocomplete_fragment);
+        calcBtn = findViewById(R.id.calcBtn);
 
         Print.out("Map has been created");
-
 
 
     }
 
     private void geoLocate(){
-/*
+
+        startLoc = null;
+        endLoc = null;
+
         Print.out("geo loc");
 
         String collectionSearch = collectionText.getText().toString();
@@ -113,12 +139,74 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
 
+
+        startMark = new MarkerOptions().position(startLoc).title(startAdr.getAddressLine(0));
+        endMark = new MarkerOptions().position(endLoc).title(endAdr.getAddressLine(0));
+
+        new FetchURL(MapsActivity.this).execute(getUrl(startMark.getPosition(), endMark.getPosition(), "driving"), "driving");
+
+
+        //move camera here
+
+        //calculate price
+
+
+        //show price and why
+
+        //insert into db
+
+
+
+        /*
         Calculation calc = Calculation.getCalculation();
         calc.addCalculation(startLoc, endLoc, 45);
 
 
-*/
+        calculateDirections();
+
+        */
+
     }
+
+
+    /*
+    private void calculateDirections(){
+        Print.out("calculate directions method");
+
+
+        com.google.maps.model.LatLng destination = new com.google.maps.model.LatLng(
+                endLoc.latitude,
+                endLoc.longitude
+        );
+        DirectionsApiRequest directions = new DirectionsApiRequest(geoCon);
+
+        //maybe set this to false coz then just the best route will be used
+        directions.alternatives(true);
+        directions.origin(
+                new com.google.maps.model.LatLng(startLoc.latitude, startLoc.longitude)
+        );
+
+        Print.out(" ... lat ... " + startLoc.latitude + " ... long ... " + startLoc.longitude + " ... lat ... " + endLoc.latitude + " ... long ... " + endLoc.longitude);
+
+
+        directions.destination(destination).setCallback(new PendingResult.Callback<DirectionsResult>() {
+            @Override
+            public void onResult(DirectionsResult result) {
+                Print.out("on result here");
+               Print.out( "calculateDirections: routes: " + result.routes[0].toString());
+                Print.out("calculateDirections: duration: " + result.routes[0].legs[0].duration.toString());
+                Print.out( "calculateDirections: distance: " + result.routes[0].legs[0].distance.toString());
+                Print.out( "calculateDirections: geocodedWayPoints: " + result.geocodedWaypoints[0].toString());
+            }
+
+            @Override
+            public void onFailure(Throwable e) {
+                Print.out( "calculateDirections: Failed to get directions: " + e.getMessage() );
+
+            }
+        });
+    }
+    */
 
 
     /**
@@ -135,10 +223,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         LatLng nciLocation = new LatLng(53.348726, -6.243148);
-      //  mMap.addMarker(new MarkerOptions().position(nciLocation).title(getString("NCI Location")));
+        //  mMap.addMarker(new MarkerOptions().position(nciLocation).title(getString("NCI Location")));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(nciLocation));
         CameraPosition pos = new CameraPosition.Builder().target(nciLocation).zoom(18).tilt(89).bearing(20).build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(pos));
+
 
 
         calcBtn.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +237,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+
         /*
+        geoCon = null;
+
+        geoCon = new GeoApiContext.Builder().apiKey(getString(R.string.google_maps_key)).build();
+
+
         collectionText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -186,4 +281,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         */
 
     }
+
+    private String getUrl(LatLng origin, LatLng dest, String directionMode) {
+        // Origin of route
+        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
+        // Destination of route
+        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
+        // Mode
+        String mode = "mode=" + directionMode;
+        // Building the parameters to the web service
+        String parameters = str_origin + "&" + str_dest + "&" + mode;
+        // Output format
+        String output = "json";
+        // Building the url to the web service
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + getString(R.string.google_maps_key);
+        return url;
+    }
+
+    @Override
+    public void onTaskDone(Object... values) {
+        if (currentPolyline != null)
+            currentPolyline.remove();
+        currentPolyline = mMap.addPolyline((PolylineOptions) values[0]);
+    }
+
+
+
+
 }
