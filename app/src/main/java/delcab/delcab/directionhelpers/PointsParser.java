@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -17,10 +18,16 @@ import java.util.List;
 public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
     TaskLoadedCallback taskCallback;
     String directionMode = "driving";
+    Context con;
+    GoogleMap map;
+    LatLng endLoc;
 
-    public PointsParser(Context mContext, String directionMode) {
+    public PointsParser(GoogleMap map, LatLng endLoc, Context mContext, String directionMode) {
         this.taskCallback = (TaskLoadedCallback) mContext;
         this.directionMode = directionMode;
+        con = mContext;
+        this.map = map;
+        this.endLoc = endLoc;
     }
 
     // Parsing the data in non-ui thread
@@ -33,7 +40,7 @@ public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<S
         try {
             jObject = new JSONObject(jsonData[0]);
             Log.d("mylog", jsonData[0].toString());
-            DataParser parser = new DataParser();
+            DataParser parser = new DataParser(map, endLoc, con);
             Log.d("mylog", parser.toString());
 
             // Starts parsing data
@@ -87,5 +94,7 @@ public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<S
         } else {
             Log.d("mylog", "without Polylines drawn");
         }
+
+      
     }
 }

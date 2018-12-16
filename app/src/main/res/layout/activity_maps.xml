@@ -81,18 +81,6 @@
             android:hint="Destination"
             />
 
-        <Button
-            style="@style/Base.Widget.AppCompat.Button.Borderless"
-            android:background="@drawable/green_button"
-
-            android:text="Calculate price"
-            android:layout_width="290dp"
-            android:layout_height="56dp"
-            android:layout_below="@+id/input_search2"
-            android:id="@+id/loginBtn"
-            android:textSize="15sp"
-            android:layout_gravity="center"
-            android:textColor="@android:color/white" />
 
 
     </RelativeLayout>
@@ -126,7 +114,49 @@
             android:textColor="@android:color/white" />
 
 
+
+
+
     </RelativeLayout>
+
+    <!--
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/relLayout3"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:elevation="10dp"
+            android:background="@android:color/transparent"
+            aid:id="@+id/relLayout4"
+            >
+
+
+
+            <Button
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:background="@drawable/red_button"
+                android:text="View price"
+                android:layout_width="290dp"
+                android:layout_height="56dp"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/viewPriceBtn"
+                android:textSize="15sp"
+                android:layout_gravity="center"
+                android:textColor="@android:color/white" />
+
+
+
+
+
+    </RelativeLayout>-->
 
 
 </RelativeLayout>
+
+
+<!--
+
+
+-->
