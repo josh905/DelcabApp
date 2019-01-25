@@ -112,7 +112,7 @@ public class PriceActivity extends AppCompatActivity {
 
 
                 //START of string request
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://delcab.ie/p7d3bny8s/test3.php", new Response.Listener<String>() {
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://delcab.ie/webservice/test3.php", new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
