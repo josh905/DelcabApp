@@ -31,8 +31,38 @@
             android:textAlignment="center"
             android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="270dp"
             android:id="@+id/tv" />
+
+        <Button
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:background="@drawable/green_button"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/tv"
+            android:text="Insert test val"
+            android:layout_width="290dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="15dp"
+            android:id="@+id/insertBtn"
+            android:textSize="15sp"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white" />
+
+        <Button
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:background="@drawable/green_button"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/insertBtn"
+            android:text="Go to test activity"
+            android:layout_width="290dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="15dp"
+            android:id="@+id/goToTestBtn"
+            android:textSize="15sp"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white" />
+
+
 
     </RelativeLayout>
 

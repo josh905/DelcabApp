@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import delcab.delcab.HttpRequest;
-import delcab.delcab.MapsActivity;
 import delcab.delcab.PriceActivity;
 import delcab.delcab.Print;
 import delcab.delcab.Single;
@@ -215,9 +213,9 @@ public class DataParser {
 
             final String[] arr = {distance,duration};
 
-            HttpRequest req = new HttpRequest();
-            String response = req.toURL(con,"post_estimate", arr);
-            Print.out("delcab.ie response: "+response);
+            //HttpRequest req = new HttpRequest();
+           // String response = req.toURL(con,"post_estimate", arr);
+           // Print.out("delcab.ie response: "+response);
 
 
 

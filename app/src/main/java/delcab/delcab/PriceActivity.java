@@ -4,8 +4,20 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +27,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PriceActivity extends AppCompatActivity {
 
@@ -75,7 +89,8 @@ public class PriceActivity extends AppCompatActivity {
             }
 
             else{
-                price = baseCharge + (costPerMinute * duration) + (costPerKm * distance);
+                price = baseCharge + (costPerMinute * duration)
+                        + (costPerKm * distance);
 
                 price = round(price,2);
 
@@ -90,79 +105,66 @@ public class PriceActivity extends AppCompatActivity {
 
 
 
-        /*
-        Intent in = getIntent();
-        durationStr = in.getStringExtra("duration");
-        distanceStr = in.getStringExtra("distance");
+        Button insertBtn = findViewById(R.id.insertBtn);
+        insertBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
 
-        final String[] getArr = {"dummy","dummy"};
+                //START of string request
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://delcab.ie/p7d3bny8s/test3.php", new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String dogman = jsonObject.getString("dogman");
+                            String catwoman = jsonObject.getString("catwoman");
+                            String foodstuff = jsonObject.getString("foodstuff");
+                            Print.out(dogman + " ... " + catwoman + " ... " + foodstuff);
 
-        HttpRequest req = new HttpRequest();
-        String response = req.toURL(this,"getdirection", getArr);
-        Print.out("delcab.ie response: "+response);
+                            //store it in shared preferences here
 
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Print.out("Volley error ... "+error.toString());
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<>();
+                        params.put("key1", Global.key1());
+                        params.put("key2", Global.key2());
 
-        Print.out("1");
+                        params.put("dog", "kobi");
+                        params.put("cat", "tigger");
+                        params.put("food", "pizza");
 
-        String data = "";
-        InputStream iStream = null;
-        HttpURLConnection urlConnection = null;
-        try {
-            URL url = new URL("http://delcab.ie/p7d3bny8s/getdirection.php?j43sj3na98S3nAd8A3kAs5dk3ak3sh8ss9Sr49Dn4sSLDsn493SNm4sm3iSAM3js8a3DJs38hsSfd74Sh48shGSh4SRha43b2Aj43sj3na98S3nAd8A3kAs5dk3ak3sfge5wr1msKSn1ao3wlf34nFrnSkf9483Gs9rn34jsDj4093jFw3noi4ill1211DFg4jfgj43sj3na98S3nAd8A3kAs5dk3ak3sdummyj43sj3na98S3nAd8A3kAs5dk3ak3sdummyj43sj3na98S3nAd8A3kAs5dk3ak3s");
-            // Creating an http connection to communicate with url
-            urlConnection = (HttpURLConnection) url.openConnection();
-            // Connecting to url
-            urlConnection.connect();
+                        return params;
+                    }
+                };
 
-            Print.out("2");
+                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                requestQueue.add(stringRequest);
+                //END of string request
 
-            //Print.out(urlConnection.getHeaderFields().toString());
-            Print.out(urlConnection.getResponseMessage());
-           // Print.out(urlConnection.getContent().toString());
-            //Print.out(urlConnection.getURL().getContent().toString());
-            Print.out(urlConnection.getURL().getQuery());
-
-
-
-            // Reading data from url
-            iStream = urlConnection.getInputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
-
-            Print.out("2.5");
-            Print.out(br.readLine());
-
-            StringBuffer sb = new StringBuffer();
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
             }
-            Print.out("3");
-            data = sb.toString();
-            Print.out("4" + data);
-            Log.d("mylog", "Downloaded URL: " + data.toString());
-            br.close();
-        } catch (Exception e) {
-            Log.d("mylog", "Exception downloading URL: " + e.toString());
-        }
+        });
 
-            iStream.close();
-            urlConnection.disconnect();
-
-
-        Print.out(data);
-
-      */
-
-
-
-        //Print.toast(this,distance + " ... " + duration);
-
-
-
-
-        //insert estimate
+        Button goToTestBtn = findViewById(R.id.goToTestBtn);
+        goToTestBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(PriceActivity.this, TestActivity.class);
+                startActivity(in);
+                finish();
+            }
+        });
 
     }
 
