@@ -36,6 +36,8 @@ public class Global {
         return "fge5wr1msKSn1ao3wlf34nFrnSkf9483Gs9rn34jsDj4093jFw3noi4ill1211DFg4jfg";
     }
 
+    private int test1 = 12;
+
 
 
 }

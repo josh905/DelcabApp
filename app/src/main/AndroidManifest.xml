@@ -51,7 +51,6 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".PriceActivity" />
-        <activity android:name=".DisplayActivity" />
         <activity android:name=".TestActivity"></activity>
     </application>
 

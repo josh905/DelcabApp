@@ -35,6 +35,7 @@ public class PriceActivity extends AppCompatActivity {
     private String durationStr, distanceStr;
     private TextView tv;
     private double distance, duration, price, baseCharge, costPerMinute, costPerKm, weight;
+    private int test1;
 
 
     @Override
@@ -67,6 +68,7 @@ public class PriceActivity extends AppCompatActivity {
         else if(durationStr.equals("1 min") || distanceStr.contains(" m")){
             tv.append("Delcab does not deliver for journeys this short");
         }
+
 
         else{
 
