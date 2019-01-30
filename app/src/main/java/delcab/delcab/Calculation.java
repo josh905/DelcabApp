@@ -10,6 +10,7 @@ public class Calculation {
     public LatLng start, end;
     public double distance, price;
     public String name;
+    public boolean isCalculated;
 
     public static Calculation getCalculation() {
 
