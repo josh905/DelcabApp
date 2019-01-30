@@ -8,7 +8,7 @@ public class Single {
     private Single() {}
 
     //mins and km.
-    public double journeyDistance, journeyDuration, test, test2;
+    public double journeyDistance, journeyDuration, test, test2, test3;
 
 
     public static Single use() {

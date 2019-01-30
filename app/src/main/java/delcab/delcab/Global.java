@@ -28,7 +28,11 @@ public class Global {
 
     }
 
-   
+    public void sinceThenTest(){
+
+    }
+
+
 
     private int test1 = 12;
 
