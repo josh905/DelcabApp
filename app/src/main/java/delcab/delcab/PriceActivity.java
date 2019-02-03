@@ -140,8 +140,8 @@ public class PriceActivity extends AppCompatActivity {
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String, String> params = new HashMap<>();
-                        params.put("key1", Global.key1());
-                        params.put("key2", Global.key2());
+                        params.put("key1", Secure.key1);
+                        params.put("key2", Secure.key2);
 
                         params.put("dog", "kobi");
                         params.put("cat", "tigger");
