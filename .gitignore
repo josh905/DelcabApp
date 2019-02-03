@@ -9,6 +9,4 @@
 /build
 /captures
 .externalNativeBuild
-HttpRequest.java
 google_maps_api.xml
-Global.java
