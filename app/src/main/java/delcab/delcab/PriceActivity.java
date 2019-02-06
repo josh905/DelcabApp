@@ -113,7 +113,7 @@ public class PriceActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                //START of string request
+                //START of HTTP request
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://delcab.ie/webservice/test3.php", new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -153,7 +153,7 @@ public class PriceActivity extends AppCompatActivity {
 
                 RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
                 requestQueue.add(stringRequest);
-                //END of string request
+                //END of HTTP request
 
             }
         });

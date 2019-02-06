@@ -17,7 +17,7 @@
     <ImageView
         android:id="@+id/taxiImg"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="220dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
         app:srcCompat="@drawable/taxi_lg" />
@@ -27,35 +27,27 @@
         android:background="@drawable/red_button"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/taxiImg"
-        android:text="Taxi Driver"
+        android:text="Register"
         android:layout_width="240dp"
         android:layout_height="56dp"
-        android:layout_marginTop="3dp"
-        android:id="@+id/taxiBtn"
+        android:layout_marginTop="43dp"
+        android:id="@+id/registerBtn"
         android:textSize="15sp"
         android:layout_gravity="center"
         android:textColor="@android:color/white" />
 
 
-    <ImageView
-        android:id="@+id/busImg"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/taxiBtn"
-        android:layout_marginTop="55dp"
-        app:srcCompat="@drawable/bus_lg" />
 
     <Button
         style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:background="@drawable/green_button"
+        android:background="@drawable/red_button"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/busImg"
-        android:text="Business"
+        android:layout_below="@id/registerBtn"
+        android:text="Log in"
         android:layout_width="240dp"
         android:layout_height="56dp"
         android:layout_marginTop="15dp"
-        android:id="@+id/busBtn"
+        android:id="@+id/loginBtn"
         android:textSize="15sp"
         android:layout_gravity="center"
         android:textColor="@android:color/white" />

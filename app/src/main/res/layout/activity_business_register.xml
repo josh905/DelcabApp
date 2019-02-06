@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/activity_splash_screen"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:paddingBottom="@dimen/activity_vertical_margin"
+android:paddingLeft="@dimen/activity_horizontal_margin"
+android:paddingRight="@dimen/activity_horizontal_margin"
+android:paddingTop="@dimen/activity_vertical_margin"
+tools:context="delcab.delcab.BusinessRegisterActivity">
+
+
+
+
+    <EditText
+        android:layout_marginTop="4dp"
+    android:id="@+id/nameBox"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Business name"
+    android:inputType="text"
+    android:maxLines="1"
+    android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/regBox"
+        android:layout_marginTop="3dp"
+        android:layout_below="@id/nameBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Business registration number"
+        android:inputType="text"
+        android:maxLines="1"
+        android:singleLine="true" />
+
+
+    <EditText
+        android:id="@+id/phoneBox"
+        android:layout_marginTop="3dp"
+        android:layout_below="@id/regBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone number"
+        android:inputType="text"
+        android:maxLines="1"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/emailBox"
+        android:layout_marginTop="3dp"
+        android:layout_below="@id/phoneBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:maxLines="1"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/passwordBox"
+        android:layout_marginTop="3dp"
+        android:layout_below="@id/emailBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/repeatBox"
+        android:layout_marginTop="3dp"
+        android:layout_below="@id/passwordBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Repeat Password"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:singleLine="true" />
+
+
+    <Button
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:background="@drawable/green_button"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/repeatBox"
+        android:text="Register"
+        android:layout_width="240dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="35dp"
+        android:id="@+id/registerBtn"
+        android:textSize="15sp"
+        android:layout_gravity="center"
+        android:textColor="@android:color/white" />
+
+
+
+
+    <!--
+    <Button
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:background="@drawable/green_button"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/imageView4"
+        android:text="Activate Map"
+        android:layout_width="290dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="12dp"
+        android:id="@+id/activateBtn"
+        android:textSize="15sp"
+        android:layout_gravity="center"
+        android:textColor="@android:color/white" /> -->
+
+</RelativeLayout>
