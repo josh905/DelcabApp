@@ -108,6 +108,7 @@ public class BusinessRegisterActivity extends AppCompatActivity {
 
 
 
+
                 //START of HTTP request
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://delcab.ie/webservice/business_register.php", new Response.Listener<String>() {
                     @Override
