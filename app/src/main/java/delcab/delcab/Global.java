@@ -28,9 +28,6 @@ public class Global {
 
     }
 
-    private int time1 = 1139;
-
-
 
 
 }
