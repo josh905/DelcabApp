@@ -89,9 +89,11 @@ public class BusinessRegisterActivity extends AppCompatActivity {
                     return;
                 }
 
+
                 if(!password.equals(repeatBox.getText().toString())){
                     Print.toast(getApplicationContext(), "Passwords do not match");
                 }
+
 
                 if(password.length()<6 || password.length()>80){
                     Print.toast(getApplicationContext(), "Password must be 6-80 characters");
@@ -106,6 +108,9 @@ public class BusinessRegisterActivity extends AppCompatActivity {
                 //bcrypt password here
 
 
+                //changing password to hashed password
+                password = BCrypt.hashpw(password, BCrypt.gensalt());
+
 
 
 
@@ -117,7 +122,20 @@ public class BusinessRegisterActivity extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             String status = jsonObject.getString("status");
 
-                            Print.toast(getApplicationContext(), "status.."+status);
+                            //Print.toast(getApplicationContext(), "status.."+status);
+
+                            //String affected = jsonObject.getInt("affected");
+                            String affected = jsonObject.getString("affected");
+
+                            String hashedPass = jsonObject.getString("password");
+                            if(BCrypt.checkpw("jjjjjj", hashedPass)){
+                                Print.toast(getApplicationContext(), "valid");
+                            }
+                            else{
+                                Print.toast(getApplicationContext(), "invalid");
+                            }
+
+                            //Print.toast(getApplicationContext(), "affected.."+affected);
 
                             //store it in shared preferences here
 
