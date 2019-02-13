@@ -3,13 +3,11 @@ package delcab.delcab;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -19,14 +17,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -114,7 +106,7 @@ public class PriceActivity extends AppCompatActivity {
 
 
                 //START of HTTP request
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://delcab.ie/webservice/test3.php", new Response.Listener<String>() {
+                StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/test3.php", new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
@@ -140,8 +132,8 @@ public class PriceActivity extends AppCompatActivity {
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String, String> params = new HashMap<>();
-                        params.put("key1", Secure.key1);
-                        params.put("key2", Secure.key2);
+                        params.put("key1", RequestHeader.key1);
+                        params.put("key2", RequestHeader.key2);
 
                         params.put("dog", "kobi");
                         params.put("cat", "tigger");

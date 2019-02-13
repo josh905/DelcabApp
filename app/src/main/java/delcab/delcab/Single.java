@@ -3,7 +3,7 @@ package delcab.delcab;
 import com.google.android.gms.maps.model.LatLng;
 
 public class Single {
-    private static Single single;
+    private static Single single, strTest;
 
     private Single() {}
 

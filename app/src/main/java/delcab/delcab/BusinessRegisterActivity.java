@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -115,7 +114,7 @@ public class BusinessRegisterActivity extends AppCompatActivity {
 
 
                 //START of HTTP request
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://delcab.ie/webservice/business_register.php", new Response.Listener<String>() {
+                StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/business_register.php", new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
@@ -124,6 +123,7 @@ public class BusinessRegisterActivity extends AppCompatActivity {
 
                             //Print.toast(getApplicationContext(), "status.."+status);
 
+                            /*
                             //String affected = jsonObject.getInt("affected");
                             String affected = jsonObject.getString("affected");
 
@@ -136,6 +136,8 @@ public class BusinessRegisterActivity extends AppCompatActivity {
                             }
 
                             //Print.toast(getApplicationContext(), "affected.."+affected);
+                            */
+
 
                             //store it in shared preferences here
 
@@ -153,8 +155,8 @@ public class BusinessRegisterActivity extends AppCompatActivity {
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String, String> params = new HashMap<>();
-                        params.put("key1", Secure.key1);
-                        params.put("key2", Secure.key2);
+                        params.put("key1", RequestHeader.key1);
+                        params.put("key2", RequestHeader.key2);
 
                         params.put("name", name);
                         params.put("regNum", regNum);
