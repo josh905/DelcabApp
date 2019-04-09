@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
-android:id="@+id/activity_splash_screen"
+android:id="@+id/activity_business_register"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:paddingBottom="@dimen/activity_vertical_margin"
@@ -16,10 +16,10 @@ tools:context="delcab.delcab.BusinessRegisterActivity">
 
     <EditText
         android:layout_marginTop="4dp"
-    android:id="@+id/nameBox"
+    android:id="@+id/holderNameBox"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:hint="Business name"
+    android:hint="Your full name"
     android:inputType="text"
     android:maxLines="1"
     android:singleLine="true" />
@@ -27,10 +27,10 @@ tools:context="delcab.delcab.BusinessRegisterActivity">
     <EditText
         android:id="@+id/regBox"
         android:layout_marginTop="3dp"
-        android:layout_below="@id/nameBox"
+        android:layout_below="@id/holderNameBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Business registration number"
+        android:hint="Business/Company Reg. No."
         android:inputType="text"
         android:maxLines="1"
         android:singleLine="true" />

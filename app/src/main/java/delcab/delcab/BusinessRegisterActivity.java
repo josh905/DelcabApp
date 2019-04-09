@@ -1,5 +1,6 @@
 package delcab.delcab;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,8 +24,8 @@ import java.util.Map;
 public class BusinessRegisterActivity extends AppCompatActivity {
 
     private Button registerBtn;
-    private String name, regNum, phone, email, password;
-    private EditText nameBox, regBox, phoneBox, emailBox, passwordBox, repeatBox;
+    private String holderName, regNum, phone, email, password;
+    private EditText holderNameBox, regBox, phoneBox, emailBox, passwordBox, repeatBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,7 @@ public class BusinessRegisterActivity extends AppCompatActivity {
 
         registerBtn = findViewById(R.id.registerBtn);
 
-        nameBox = findViewById(R.id.nameBox);
+        holderNameBox = findViewById(R.id.holderNameBox);
         regBox = findViewById(R.id.regBox);
         phoneBox = findViewById(R.id.phoneBox);
         emailBox = findViewById(R.id.emailBox);
@@ -43,14 +44,14 @@ public class BusinessRegisterActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                name = nameBox.getText().toString();
+                holderName = holderNameBox.getText().toString();
                 regNum = regBox.getText().toString();
                 phone = phoneBox.getText().toString();
                 email = emailBox.getText().toString();
                 password = passwordBox.getText().toString();
 
 
-                if(name.length() <2 || name.length() > 40){
+                if(holderName.length() <2 || holderName.length() > 40){
                     Print.toast(getApplicationContext(), "Name must be 2-40 characters");
                     return;
                 }
@@ -60,7 +61,7 @@ public class BusinessRegisterActivity extends AppCompatActivity {
                 }
 
                 try{
-                    //not storing the int value. just using it to check the number is valid format
+                    //not storing the int value. just parsing to check the input is a number
                     Integer.parseInt(regNum);
                 }
                 catch (NumberFormatException ex){
@@ -91,6 +92,7 @@ public class BusinessRegisterActivity extends AppCompatActivity {
 
                 if(!password.equals(repeatBox.getText().toString())){
                     Print.toast(getApplicationContext(), "Passwords do not match");
+                    return;
                 }
 
 
@@ -104,45 +106,56 @@ public class BusinessRegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-                //bcrypt password here
-
 
                 //changing password to hashed password
                 password = BCrypt.hashpw(password, BCrypt.gensalt());
 
 
 
-
                 //START of HTTP request
-                StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/business_register.php", new Response.Listener<String>() {
+                StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/business_registration_check.php", new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             String status = jsonObject.getString("status");
+                            String org1 = "not set";
+                            String org2 = "not set";
 
-                            //Print.toast(getApplicationContext(), "status.."+status);
+                            if(status.equals("complete")){
+                                org1 = jsonObject.getString("org1");
+                                org2 = jsonObject.getString("org2");
 
-                            /*
-                            //String affected = jsonObject.getInt("affected");
-                            String affected = jsonObject.getString("affected");
+                                if(org1.equals("none") && org2.equals("none")){
+                                    Print.toast(getApplicationContext(), "Not a registered Irish number");
+                                }
 
-                            String hashedPass = jsonObject.getString("password");
-                            if(BCrypt.checkpw("jjjjjj", hashedPass)){
-                                Print.toast(getApplicationContext(), "valid");
+                                else{
+                                    Intent select = new Intent(getApplicationContext(), BusinessSelectActivity.class);
+
+                                    select.putExtra("holderName", holderName);
+                                    select.putExtra("regNum", regNum);
+                                    select.putExtra("phone", phone);
+                                    select.putExtra("email", email);
+                                    select.putExtra("password", password);
+                                    select.putExtra("org1", org1);
+                                    select.putExtra("org2", org2);
+
+                                    startActivity(select);
+                                }
+
                             }
+
                             else{
-                                Print.toast(getApplicationContext(), "invalid");
+                                Print.toast(getApplicationContext(), "Could not check reg number");
                             }
 
-                            //Print.toast(getApplicationContext(), "affected.."+affected);
-                            */
 
 
-                            //store it in shared preferences here
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Print.out("not json");
                         }
                     }
 
@@ -158,12 +171,7 @@ public class BusinessRegisterActivity extends AppCompatActivity {
                         params.put("key1", RequestHeader.key1);
                         params.put("key2", RequestHeader.key2);
 
-                        params.put("name", name);
                         params.put("regNum", regNum);
-                        params.put("phone", phone);
-                        params.put("email", email);
-                        params.put("password", password);
-
 
                         return params;
                     }
@@ -172,7 +180,6 @@ public class BusinessRegisterActivity extends AppCompatActivity {
                 RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
                 requestQueue.add(stringRequest);
                 //END of HTTP request
-
 
 
 
