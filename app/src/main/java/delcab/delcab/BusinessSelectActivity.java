@@ -36,7 +36,7 @@ public class BusinessSelectActivity extends AppCompatActivity {
 
     private Spinner spinner;
     private ArrayAdapter<String> adapter;
-    private String holderName, regNum, phone, email, password, org1, org2, chosen;
+    private String holderName, regNum, phone, username, password, chosen, busName, compName, busRegDate, compRegDate;
 
 
     @Override
@@ -50,10 +50,12 @@ public class BusinessSelectActivity extends AppCompatActivity {
         holderName = "none";
         regNum = "none";
         phone = "none";
-        email = "none";
+        username = "none";
         password = "none";
-        org1 = "none";
-        org2 = "none";
+        busName = "none";
+        busRegDate = "none";
+        compName = "none";
+        compRegDate = "none";
 
         if(got.getStringExtra("holderName")!=null){
             holderName = got.getStringExtra("holderName");
@@ -67,29 +69,39 @@ public class BusinessSelectActivity extends AppCompatActivity {
             phone = got.getStringExtra("phone");
         }
 
-        if(got.getStringExtra("email")!=null){
-            email = got.getStringExtra("email");
+        if(got.getStringExtra("username")!=null){
+            username = got.getStringExtra("username");
         }
 
         if(got.getStringExtra("password")!=null){
             password = got.getStringExtra("password");
         }
 
-        if(got.getStringExtra("org1")!=null){
-            org1 = got.getStringExtra("org1");
+        if(got.getStringExtra("busName")!=null){
+            busName = got.getStringExtra("busName");
         }
 
-        if(got.getStringExtra("org2")!=null){
-            org2 = got.getStringExtra("org2");
+        if(got.getStringExtra("compName")!=null){
+            compName = got.getStringExtra("compName");
+        }
+
+        if(got.getStringExtra("busRegDate")!=null){
+            busRegDate = got.getStringExtra("busRegDate");
+        }
+
+        if(got.getStringExtra("compRegDate")!=null){
+            compRegDate = got.getStringExtra("compRegDate");
         }
 
         List<String> list = new ArrayList<>();
         list.add("Select your business/company");
-        if(!org1.equals("none")){
-            list.add(org1);
+        if(!busName.equals("none")){
+            busName = busName.replace("&amp;","&");
+            list.add(busName);
         }
-        if(!org2.equals("none")){
-            list.add(org2);
+        if(!compName.equals("none")){
+            compName = compName.replace("&amp;","&");
+            list.add(compName);
         }
         list.add("None of these");
 
@@ -127,7 +139,23 @@ public class BusinessSelectActivity extends AppCompatActivity {
 
                                 String message = jsonObject.getString("message");
 
-                                Print.toast(getApplicationContext(),message);
+                                if(message.equals("completed with 1")){
+
+
+                                    Intent verifyIn = new Intent(getApplicationContext(), BusinessLoginActivity.class);
+
+                                    verifyIn.putExtra("verificationRequired","yes");
+
+                                    startActivity(verifyIn);
+
+                                    finish();
+
+
+                                }
+
+                                else{
+                                    Print.toast(getApplicationContext(),"Could not register user.");
+                                }
 
 
                             } catch (JSONException e) {
@@ -147,13 +175,22 @@ public class BusinessSelectActivity extends AppCompatActivity {
                             Map<String, String> params = new HashMap<>();
                             params.put("key1", RequestHeader.key1);
                             params.put("key2", RequestHeader.key2);
-
                             params.put("holderName",holderName);
-                            params.put("busName",chosen);
                             params.put("regNum",regNum);
                             params.put("phone",phone);
-                            params.put("email",email);
+                            params.put("username",username);
                             params.put("password",password);
+
+                            if(chosen.equals(busName)){
+
+                                params.put("busName",busName);
+                                params.put("busRegDate",busRegDate);
+                            }
+                            else{
+                                //from now on its called bus regardless
+                                params.put("busName",compName);
+                                params.put("busRegDate",compRegDate);
+                            }
 
 
                             return params;

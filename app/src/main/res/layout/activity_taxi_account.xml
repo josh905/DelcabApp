@@ -52,19 +52,6 @@
         android:layout_gravity="center"
         android:textColor="@android:color/white" />
 
-    <!--
-    <Button
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:background="@drawable/green_button"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/imageView4"
-        android:text="Activate Map"
-        android:layout_width="290dp"
-        android:layout_height="56dp"
-        android:layout_marginBottom="12dp"
-        android:id="@+id/activateBtn"
-        android:textSize="15sp"
-        android:layout_gravity="center"
-        android:textColor="@android:color/white" /> -->
+
 
 </RelativeLayout>

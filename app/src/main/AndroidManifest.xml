@@ -63,7 +63,9 @@
             android:name=".TestLoginActivity"
             android:label="@string/title_activity_test_login" />
         <activity android:name=".BusinessRegisterActivity" />
-        <activity android:name=".BusinessSelectActivity"></activity>
+        <activity android:name=".BusinessSelectActivity" />
+        <activity android:name=".BusinessLoginActivity" />
+        <activity android:name=".TaxiRegisterActivity"></activity>
     </application>
 
 </manifest>

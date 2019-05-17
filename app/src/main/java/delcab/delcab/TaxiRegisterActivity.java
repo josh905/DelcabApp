@@ -23,63 +23,66 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class BusinessRegisterActivity extends AppCompatActivity {
+public class TaxiRegisterActivity extends AppCompatActivity {
 
     private Button registerBtn;
-    private String holderName, regNum, phone, username, password;
-    private EditText holderNameBox, regBox, phoneBox, usernameBox, passwordBox, repeatBox;
-    private int usernameCount;
+    private String driverName, taxiNum, phone, username, password;
+    private EditText driverNameBox, taxiNumBox, phoneBox, usernameBox, passwordBox, repeatBox;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_business_register);
+        setContentView(R.layout.activity_taxi_register);
 
         registerBtn = findViewById(R.id.registerBtn);
 
-        holderNameBox = findViewById(R.id.holderNameBox);
-        regBox = findViewById(R.id.regBox);
+        driverNameBox = findViewById(R.id.driverNameBox);
+        taxiNumBox = findViewById(R.id.taxiNumBox);
         phoneBox = findViewById(R.id.phoneBox);
         usernameBox = findViewById(R.id.usernameBox);
         passwordBox = findViewById(R.id.passwordBox);
         repeatBox = findViewById(R.id.repeatBox);
 
-        usernameCount = 0;
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holderName = holderNameBox.getText().toString();
-                regNum = regBox.getText().toString();
+                driverName = driverNameBox.getText().toString();
+                taxiNum = taxiNumBox.getText().toString();
                 phone = phoneBox.getText().toString();
                 username = usernameBox.getText().toString();
                 password = passwordBox.getText().toString();
 
 
-                if(holderName.length() <2 || holderName.length() > 40){
+                if(driverName.length() <2 || driverName.length() > 40){
                     Print.toast(getApplicationContext(), "Name must be 2-40 characters");
                     return;
                 }
-                if(regNum.length() > 10 || regNum.length() < 4){
-                    Print.toast(getApplicationContext(), "Reg. no. must be 4-10 characters");
+                if(taxiNum.length() != 5){
+                    Print.toast(getApplicationContext(), "Taxi number must be 5 digits");
                     return;
                 }
 
-                if(!android.text.TextUtils.isDigitsOnly(regNum)){
-                    Print.toast(getApplicationContext(), "Enter only numbers for registration number");
+                if(!android.text.TextUtils.isDigitsOnly(taxiNum)){
+                    Print.toast(getApplicationContext(), "Enter only numbers for taxi number");
                     return;
                 }
 
                 if(phone.length()!=10){
-                    Print.toast(getApplicationContext(), "Phone number must be 7-10 digits");
+                    Print.toast(getApplicationContext(), "Mobile number must be 10 digits");
+                    return;
+                }
+
+                if(!(phone.charAt(0)=='0' && phone.charAt(1)=='8')){
+                    Print.toast(getApplicationContext(), "Mobile number must start with 08");
                     return;
                 }
 
                 if(!android.text.TextUtils.isDigitsOnly(phone)){
-                    Print.toast(getApplicationContext(), "Enter only numbers for phone number");
+                    Print.toast(getApplicationContext(), "Enter only numbers for mobile number");
                     return;
                 }
-
 
                 if(username.length()<6 || username.length() > 20){
                     Print.toast(getApplicationContext(), "Username must be 6-20 characters");
@@ -92,6 +95,7 @@ public class BusinessRegisterActivity extends AppCompatActivity {
                     Print.toast(getApplicationContext(), "Username can only be letters and numbers");
                     return;
                 }
+
 
                 if(!password.equals(repeatBox.getText().toString())){
                     Print.toast(getApplicationContext(), "Passwords do not match");
@@ -115,61 +119,49 @@ public class BusinessRegisterActivity extends AppCompatActivity {
 
 
 
-                //checking if user already exists with that username:
-
                 //START of HTTP request
-                StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/username_check.php", new Response.Listener<String>() {
+                StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/taxi_check.php", new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
 
-                            String strUsernameCount = jsonObject.getString("message");
-
-                            usernameCount = Integer.parseInt(strUsernameCount);
+                            String message = jsonObject.getString("message");
 
 
 
-
-                            if(usernameCount>0){
+                            if(message.equals("username taken")){
                                 Print.toast(getApplicationContext(), "Username is taken");
                                 return;
                             }
 
+                            else if(message.equals("taxi num taken")){
+                                Print.toast(getApplicationContext(), "An account exists with that taxi number");
+                                return;
+                            }
+
+                            else if(message.equals("not taxi num")){
+                                Print.toast(getApplicationContext(), "That's not a registered taxi number");
+                                return;
+                            }
+
+
+
+
                             //START of HTTP request
-                            StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/business_registration_check.php", new Response.Listener<String>() {
+                            StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/taxi_register.php", new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
                                     try {
                                         JSONObject jsonObject = new JSONObject(response);
 
 
-                                        String busName = jsonObject.getString("busName");
-                                        String compName = jsonObject.getString("compName");
+                                        String message = jsonObject.getString("message");
 
-                                        String busRegDate = jsonObject.getString("busRegDate");
-                                        String compRegDate = jsonObject.getString("compRegDate");
+                                        Print.toast(getApplicationContext(),message);
 
-                                        if(busName.equals("none") && compName.equals("none")){
-                                            Print.toast(getApplicationContext(), "Not a registered Irish number");
-                                        }
+                                        //sharedPref here.
 
-
-                                        else{
-                                            Intent select = new Intent(getApplicationContext(), BusinessSelectActivity.class);
-
-                                            select.putExtra("holderName", holderName);
-                                            select.putExtra("regNum", regNum);
-                                            select.putExtra("phone", phone);
-                                            select.putExtra("username", username);
-                                            select.putExtra("password", password);
-                                            select.putExtra("busName", busName);
-                                            select.putExtra("compName", compName);
-                                            select.putExtra("busRegDate", busRegDate);
-                                            select.putExtra("compRegDate", compRegDate);
-
-                                            startActivity(select);
-                                        }
 
 
                                     } catch (JSONException e) {
@@ -190,7 +182,11 @@ public class BusinessRegisterActivity extends AppCompatActivity {
                                     params.put("key1", RequestHeader.key1);
                                     params.put("key2", RequestHeader.key2);
 
-                                    params.put("regNum", regNum);
+                                    params.put("driverName",driverName);
+                                    params.put("taxiNum",taxiNum);
+                                    params.put("phone",phone);
+                                    params.put("username",username);
+                                    params.put("password",password);
 
                                     return params;
                                 }
@@ -223,6 +219,7 @@ public class BusinessRegisterActivity extends AppCompatActivity {
                         params.put("key2", RequestHeader.key2);
 
                         params.put("username", username);
+                        params.put("taxiNum", taxiNum);
 
                         return params;
                     }
@@ -231,6 +228,7 @@ public class BusinessRegisterActivity extends AppCompatActivity {
                 RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
                 requestQueue.add(stringRequest);
                 //END of HTTP request
+
 
             }
         });
