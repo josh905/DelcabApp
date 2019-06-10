@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="delcab.delcab.TaxiProfileActivity">
+
+
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:id="@+id/driverNameLb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My name:"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        />
+
+    <EditText
+        android:layout_marginTop="0dp"
+        android:id="@+id/driverNameBox"
+        android:layout_below="@+id/driverNameLb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Billy Phillips"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        />
+
+
+    <TextView
+        android:layout_marginTop="7dp"
+        android:id="@+id/usernameLb"
+        android:layout_below="@+id/driverNameBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Username:"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        />
+
+    <EditText
+        android:layout_marginTop="0dp"
+        android:id="@+id/usernameBox"
+        android:inputType="none"
+        android:layout_below="@+id/usernameLb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="billy24"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        />
+
+
+    <TextView
+        android:layout_marginTop="7dp"
+        android:id="@+id/taxiNumLb"
+        android:layout_below="@+id/usernameBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Taxi number:"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        />
+
+    <EditText
+        android:layout_marginTop="0dp"
+        android:id="@+id/taxiNumBox"
+        android:layout_below="@+id/taxiNumLb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="none"
+        android:text="24512"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        />
+
+    <TextView
+        android:layout_marginTop="7dp"
+        android:id="@+id/phoneLb"
+        android:layout_below="@+id/taxiNumBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Phone:"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        />
+
+    <EditText
+        android:layout_marginTop="0dp"
+        android:id="@+id/phoneBox"
+        android:layout_below="@+id/phoneLb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0845521694"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        />
+
+
+
+    <Button
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:background="@drawable/red_button"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/phoneBox"
+        android:text="Update Details"
+        android:layout_width="240dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="30dp"
+        android:id="@+id/updateBtn"
+        android:textSize="15sp"
+        android:layout_gravity="center"
+        android:textColor="@android:color/white" />
+
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/changeTV"
+        android:layout_below="@+id/updateBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:text="Change password"
+        android:textColor="@color/taxi"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        />
+
+
+
+
+</RelativeLayout>

@@ -1,9 +1,12 @@
 package delcab.delcab;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -38,6 +41,8 @@ public class BusinessSelectActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private String holderName, regNum, phone, username, password, chosen, busName, compName, busRegDate, compRegDate;
 
+    private Context regContext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,7 @@ public class BusinessSelectActivity extends AppCompatActivity {
         spinner = findViewById(R.id.spinner);
 
         final Intent got = getIntent();
+
 
         holderName = "none";
         regNum = "none";
@@ -141,15 +147,70 @@ public class BusinessSelectActivity extends AppCompatActivity {
 
                                 if(message.equals("completed with 1")){
 
+                                    //START of HTTP request
+                                    StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/get_business_details.php", new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+                                            try {
+                                                JSONObject jsonObject = new JSONObject(response);
 
-                                    Intent verifyIn = new Intent(getApplicationContext(), BusinessLoginActivity.class);
+                                                if(!jsonObject.getString("message").contains("row was fetched")){
+                                                    Print.toast(getApplicationContext(),"Could not get user details");
+                                                    //return;
+                                                }
+                                                else{
 
-                                    verifyIn.putExtra("verificationRequired","yes");
+                                                    SharedPreferences.Editor editor = getSharedPreferences("DELCAB", MODE_PRIVATE).edit();
 
-                                    startActivity(verifyIn);
+                                                    editor.putString("accountType", "business");
+                                                    editor.putInt("businessId", jsonObject.getInt("businessId"));
+                                                    editor.putInt("regNum", jsonObject.getInt("regNum"));
+                                                    editor.putString("holderName", jsonObject.getString("holderName"));
+                                                    editor.putString("businessName", jsonObject.getString("businessName"));
+                                                    editor.putString("dateRegistered", jsonObject.getString("dateRegistered"));
+                                                    editor.putString("phone", jsonObject.getString("phone"));
+                                                    editor.putString("password", jsonObject.getString("password"));
+                                                    editor.putString("dateJoined", jsonObject.getString("dateJoined"));
+                                                    editor.putString("username", jsonObject.getString("username"));
 
-                                    finish();
+                                                    editor.apply();
 
+
+                                                    startActivity(new Intent(getApplicationContext(), BusinessHomeActivity.class));
+
+
+                                                    finish();
+
+                                                }
+
+                                            }
+                                            catch (JSONException e) {
+                                                e.printStackTrace();
+                                                Print.out("not json");
+                                            }
+                                        }
+
+                                    }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            Print.out("Volley error ... "+error.toString());
+                                        }
+                                    }){
+                                        @Override
+                                        protected Map<String, String> getParams() throws AuthFailureError {
+                                            Map<String, String> params = new HashMap<>();
+                                            params.put("key1", RequestHeader.key1);
+                                            params.put("key2", RequestHeader.key2);
+
+                                            params.put("username", username);
+
+                                            return params;
+                                        }
+                                    };
+
+                                    RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                                    requestQueue.add(stringRequest);
+                                    //END of HTTP request
 
                                 }
 

@@ -22,7 +22,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BusinessLoginActivity extends AppCompatActivity {
+public class TaxiLoginActivity extends AppCompatActivity {
 
     private String message, username, password;
     private EditText usernameBox, passwordBox;
@@ -31,7 +31,7 @@ public class BusinessLoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_business_login);
+        setContentView(R.layout.activity_taxi_login);
 
         usernameBox = findViewById(R.id.usernameBox);
         passwordBox =  findViewById(R.id.passwordBox);
@@ -46,9 +46,8 @@ public class BusinessLoginActivity extends AppCompatActivity {
                 username = usernameBox.getText().toString();
                 password = passwordBox.getText().toString();
 
-
                 //START of HTTP request
-                StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/business_login.php", new Response.Listener<String>() {
+                StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/taxi_login.php", new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
@@ -67,7 +66,7 @@ public class BusinessLoginActivity extends AppCompatActivity {
                                 else{
 
                                     //START of HTTP request
-                                    StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/get_business_details.php", new Response.Listener<String>() {
+                                    StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/get_taxi_details.php", new Response.Listener<String>() {
                                         @Override
                                         public void onResponse(String response) {
                                             try {
@@ -75,26 +74,24 @@ public class BusinessLoginActivity extends AppCompatActivity {
 
                                                 if(!jsonObject.getString("message").contains("row was fetched")){
                                                     Print.toast(getApplicationContext(),"Could not get user details");
-                                                    //return;
+
                                                 }
                                                 else{
 
                                                     SharedPreferences.Editor editor = getSharedPreferences("DELCAB", MODE_PRIVATE).edit();
 
-                                                    editor.putString("accountType", "business");
-                                                    editor.putInt("businessId", jsonObject.getInt("businessId"));
-                                                    editor.putInt("regNum", jsonObject.getInt("regNum"));
-                                                    editor.putString("holderName", jsonObject.getString("holderName"));
-                                                    editor.putString("businessName", jsonObject.getString("businessName"));
-                                                    editor.putString("dateRegistered", jsonObject.getString("dateRegistered"));
-                                                    editor.putString("phone", jsonObject.getString("phone"));
-                                                    editor.putString("password", jsonObject.getString("password"));
-                                                    editor.putString("dateJoined", jsonObject.getString("dateJoined"));
+                                                    editor.putString("accountType", "taxi");
+                                                    editor.putInt("taxiId", jsonObject.getInt("taxiId"));
+                                                    editor.putString("driverName", jsonObject.getString("driverName"));
                                                     editor.putString("username", jsonObject.getString("username"));
+                                                    editor.putInt("taxiNum", jsonObject.getInt("taxiNum"));
+                                                    editor.putString("password", jsonObject.getString("password"));
+                                                    editor.putString("phone", jsonObject.getString("phone"));
+                                                    editor.putString("dateJoined", jsonObject.getString("dateJoined"));
 
                                                     editor.apply();
 
-                                                    startActivity(new Intent(getApplicationContext(),BusinessHomeActivity.class));
+                                                    startActivity(new Intent(getApplicationContext(),TaxiHomeActivity.class));
 
                                                     finish();
 
@@ -130,7 +127,7 @@ public class BusinessLoginActivity extends AppCompatActivity {
                                     //END of HTTP request
 
 
-                                    
+
                                 }
                             }
 

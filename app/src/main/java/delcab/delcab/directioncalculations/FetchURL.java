@@ -1,4 +1,4 @@
-package delcab.delcab.directionhelpers;
+package delcab.delcab.directioncalculations;
 
 import android.content.Context;
 import android.os.AsyncTask;

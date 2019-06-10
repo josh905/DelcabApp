@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="delcab.delcab.TaxiHomeActivity"
+    >
+
+
+    <Button
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:background="@drawable/red_button"
+        android:text="Log out"
+        android:layout_width="100dp"
+        android:layout_alignRight="@id/deliveriesImg"
+        android:layout_marginEnd="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="0dp"
+        android:id="@+id/logoutBtn"
+        android:textSize="15sp"
+        android:textColor="@android:color/white" />
+
+    <ImageView
+        android:id="@+id/deliveriesImg"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        app:srcCompat="@drawable/delivery" />
+
+    <Button
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:background="@drawable/red_button"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/deliveriesImg"
+        android:text="My Deliveries"
+        android:layout_width="240dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/deliveriesBtn"
+        android:textSize="15sp"
+        android:layout_gravity="center"
+        android:textColor="@android:color/white" />
+
+
+    <ImageView
+        android:id="@+id/packagesImg"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/deliveriesBtn"
+        android:layout_marginTop="40dp"
+        app:srcCompat="@drawable/package1" />
+
+    <Button
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:background="@drawable/red_button"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/packagesImg"
+        android:text="View Packages"
+        android:layout_width="240dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/packagesBtn"
+        android:textSize="15sp"
+        android:layout_gravity="center"
+        android:textColor="@android:color/white" />
+
+    <ImageView
+        android:id="@+id/profileImg"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/packagesBtn"
+        android:layout_marginTop="45dp"
+        app:srcCompat="@drawable/profile" />
+
+    <Button
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:background="@drawable/red_button"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/profileImg"
+        android:text="My Profile"
+        android:layout_width="240dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/profileBtn"
+        android:textSize="15sp"
+        android:layout_gravity="center"
+        android:textColor="@android:color/white" />
+
+</RelativeLayout>

@@ -65,7 +65,15 @@
         <activity android:name=".BusinessRegisterActivity" />
         <activity android:name=".BusinessSelectActivity" />
         <activity android:name=".BusinessLoginActivity" />
-        <activity android:name=".TaxiRegisterActivity"></activity>
+        <activity android:name=".TaxiRegisterActivity" />
+        <activity android:name=".TaxiLoginActivity" />
+        <activity android:name=".BusinessProfileActivity" />
+        <activity android:name=".BusinessHomeActivity" />
+        <activity android:name=".TaxiHomeActivity" />
+        <activity android:name=".TaxiProfileActivity" />
+        <activity android:name=".TaxiPasswordActivity" />
+        <activity android:name=".BusinessPasswordActivity" />
+        <activity android:name=".PackageActivity"></activity>
     </application>
 
 </manifest>

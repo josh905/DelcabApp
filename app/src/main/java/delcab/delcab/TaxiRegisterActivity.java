@@ -1,6 +1,7 @@
 package delcab.delcab;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -43,6 +44,7 @@ public class TaxiRegisterActivity extends AppCompatActivity {
         usernameBox = findViewById(R.id.usernameBox);
         passwordBox = findViewById(R.id.passwordBox);
         repeatBox = findViewById(R.id.repeatBox);
+
 
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +120,7 @@ public class TaxiRegisterActivity extends AppCompatActivity {
                 password = BCrypt.hashpw(password, BCrypt.gensalt());
 
 
+                //this request checks for username in both tables and checks validity of taxi number
 
                 //START of HTTP request
                 StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/taxi_check.php", new Response.Listener<String>() {
@@ -158,10 +161,70 @@ public class TaxiRegisterActivity extends AppCompatActivity {
 
                                         String message = jsonObject.getString("message");
 
-                                        Print.toast(getApplicationContext(),message);
+                                        if(message.contains("completed with 1")){
 
-                                        //sharedPref here.
+                                            //START of HTTP request
+                                            StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/get_taxi_details.php", new Response.Listener<String>() {
+                                                @Override
+                                                public void onResponse(String response) {
+                                                    try {
+                                                        JSONObject jsonObject = new JSONObject(response);
 
+                                                        if(!jsonObject.getString("message").contains("row was fetched")){
+                                                            Print.toast(getApplicationContext(),"Could not get user details");
+
+                                                        }
+                                                        else{
+
+                                                            SharedPreferences.Editor editor = getSharedPreferences("DELCAB", MODE_PRIVATE).edit();
+
+                                                            editor.putString("accountType", "taxi");
+                                                            editor.putInt("taxiId", jsonObject.getInt("taxiId"));
+                                                            editor.putString("driverName", jsonObject.getString("driverName"));
+                                                            editor.putString("username", jsonObject.getString("username"));
+                                                            editor.putInt("taxiNum", jsonObject.getInt("taxiNum"));
+                                                            editor.putString("phone", jsonObject.getString("phone"));
+                                                            editor.putString("password", jsonObject.getString("password"));
+                                                            editor.putString("dateJoined", jsonObject.getString("dateJoined"));
+
+                                                            editor.apply();
+
+                                                            startActivity(new Intent(getApplicationContext(),TaxiHomeActivity.class));
+
+                                                            finish();
+
+                                                        }
+
+                                                    }
+                                                    catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                        Print.out("not json");
+                                                    }
+                                                }
+
+                                            }, new Response.ErrorListener() {
+                                                @Override
+                                                public void onErrorResponse(VolleyError error) {
+                                                    Print.out("Volley error ... "+error.toString());
+                                                }
+                                            }){
+                                                @Override
+                                                protected Map<String, String> getParams() throws AuthFailureError {
+                                                    Map<String, String> params = new HashMap<>();
+                                                    params.put("key1", RequestHeader.key1);
+                                                    params.put("key2", RequestHeader.key2);
+
+                                                    params.put("username", username);
+
+                                                    return params;
+                                                }
+                                            };
+
+                                            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                                            requestQueue.add(stringRequest);
+                                            //END of HTTP request
+
+                                        }
 
 
                                     } catch (JSONException e) {

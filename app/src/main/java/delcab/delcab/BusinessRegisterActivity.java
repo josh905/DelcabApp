@@ -169,6 +169,9 @@ public class BusinessRegisterActivity extends AppCompatActivity {
                                             select.putExtra("compRegDate", compRegDate);
 
                                             startActivity(select);
+
+
+
                                         }
 
 
@@ -236,4 +239,5 @@ public class BusinessRegisterActivity extends AppCompatActivity {
         });
 
     }
+
 }

@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.media.Image;
 import android.support.annotation.NonNull;
@@ -65,6 +66,20 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, BusinessAccountActivity.class));
             }
         });
+
+
+        //check shared preferences and go to taxi or business page if logged in
+
+        SharedPreferences getter = getSharedPreferences("DELCAB",MODE_PRIVATE);
+        String accountType = getter.getString("accountType","");
+
+        if(accountType.equals("taxi")){
+            startActivity(new Intent(getApplicationContext(),TaxiHomeActivity.class));
+        }
+        else if(accountType.equals("business")){
+            startActivity(new Intent(getApplicationContext(),BusinessHomeActivity.class));
+        }
+
 
 
     }

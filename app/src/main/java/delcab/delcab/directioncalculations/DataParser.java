@@ -1,14 +1,10 @@
-package delcab.delcab.directionhelpers;
+package delcab.delcab.directioncalculations;
 
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.CountDownTimer;
-import android.os.Handler;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -21,8 +17,6 @@ import java.util.List;
 
 import delcab.delcab.PriceActivity;
 import delcab.delcab.Print;
-import delcab.delcab.Single;
-import delcab.delcab.SplashActivity;
 
 
 public class DataParser {
