@@ -23,7 +23,7 @@ import delcab.delcab.directioncalculations.TaskLoadedCallback;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.maps.GeoApiContext;
+//import com.google.maps.GeoApiContext;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button calcBtn, viewPriceBtn;
     private LatLng startLoc, endLoc;
     private Address startAdr, endAdr;
-    private GeoApiContext geoCon;
+    //private GeoApiContext geoCon;
 
     private MarkerOptions startMark, endMark;
     private Polyline currentPolyline;

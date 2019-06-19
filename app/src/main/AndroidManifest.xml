@@ -17,11 +17,8 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -59,9 +56,7 @@
         <activity android:name=".TestActivity" />
         <activity android:name=".BusinessAccountActivity" />
         <activity android:name=".TaxiAccountActivity" />
-        <activity
-            android:name=".TestLoginActivity"
-            android:label="@string/title_activity_test_login" />
+
         <activity android:name=".BusinessRegisterActivity" />
         <activity android:name=".BusinessSelectActivity" />
         <activity android:name=".BusinessLoginActivity" />
@@ -73,7 +68,10 @@
         <activity android:name=".TaxiProfileActivity" />
         <activity android:name=".TaxiPasswordActivity" />
         <activity android:name=".BusinessPasswordActivity" />
-        <activity android:name=".PackageActivity"></activity>
+        <activity android:name=".PackageActivity" />
+        <activity
+            android:name=".CollectionMapsActivity"
+            android:label="@string/title_activity_collection_maps"></activity>
     </application>
 
 </manifest>

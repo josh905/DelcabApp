@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
+
 
 public class BusinessHomeActivity extends AppCompatActivity {
 
@@ -27,7 +27,7 @@ public class BusinessHomeActivity extends AppCompatActivity {
         findViewById(R.id.addBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(getApplicationContext(), CollectionMapsActivity.class));
             }
         });
 
@@ -45,6 +45,8 @@ public class BusinessHomeActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
             }
         });
+
+
 
     }
 
