@@ -1,11 +1,10 @@
 package delcab.delcab;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
 import android.view.View;
 
 
@@ -27,7 +26,7 @@ public class BusinessHomeActivity extends AppCompatActivity {
         findViewById(R.id.addBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), CollectionMapsActivity.class));
+                //startActivity(new Intent(getApplicationContext(), CollectionMapsActivity.class));
             }
         });
 
