@@ -27,7 +27,7 @@ public class BusinessHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //startActivity(new Intent(getApplicationContext(), CollectionMapsActivity.class));
-            }
+                startActivity(new Intent(getApplicationContext(), CollectionMapsActivity.class));           }
         });
 
         findViewById(R.id.profileBtn).setOnClickListener(new View.OnClickListener() {
