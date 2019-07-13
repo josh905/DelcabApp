@@ -15,19 +15,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import delcab.delcab.Print;
+
 public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
     TaskLoadedCallback taskCallback;
-    String directionMode = "driving";
-    Context con;
+    //private Context con;
     GoogleMap map;
     LatLng endLoc;
 
-    public PointsParser(GoogleMap map, LatLng endLoc, Context mContext, String directionMode) {
+    public PointsParser(GoogleMap map, LatLng endLoc, Context mContext) {
+        Print.out("j1");
         this.taskCallback = (TaskLoadedCallback) mContext;
-        this.directionMode = directionMode;
-        con = mContext;
+        Print.out("j2");
+        //this.con = mContext;
         this.map = map;
         this.endLoc = endLoc;
+        Print.out("points parsing");
     }
 
     // Parsing the data in non-ui thread
@@ -40,7 +43,7 @@ public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<S
         try {
             jObject = new JSONObject(jsonData[0]);
             Log.d("mylog", jsonData[0].toString());
-            DataParser parser = new DataParser(map, endLoc, con);
+            DataParser parser = new DataParser(map, endLoc);
             Log.d("mylog", parser.toString());
 
             // Starts parsing data
@@ -76,13 +79,10 @@ public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<S
             }
             // Adding all the points in the route to LineOptions
             lineOptions.addAll(points);
-            if (directionMode.equalsIgnoreCase("walking")) {
-                lineOptions.width(10);
-                lineOptions.color(Color.MAGENTA);
-            } else {
-                lineOptions.width(20);
-                lineOptions.color(Color.BLUE);
-            }
+
+            lineOptions.width(20);
+            lineOptions.color(Color.BLUE);
+
             Log.d("mylog", "onPostExecute lineoptions decoded");
         }
 

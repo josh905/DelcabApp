@@ -72,7 +72,7 @@ public class DeliveryMapsActivity extends FragmentActivity implements OnMapReady
 
         setInfoWindow(R.layout.custom_info_window);
 
-        Global.goTo(map, new LatLng(1.234,1.234), 6);
+        Global.goTo(map, Global.midlands(), 6);
 
         addressBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +135,7 @@ public class DeliveryMapsActivity extends FragmentActivity implements OnMapReady
                 marker.showInfoWindow();
 
 
-                Global.goTo(map, deliveryLoc, 18);
+                Global.goToTilt(map, deliveryLoc, 18);
 
             }
 

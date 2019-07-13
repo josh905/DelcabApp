@@ -2,13 +2,12 @@ package delcab.delcab;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 public class ConfirmPackageActivity extends AppCompatActivity {
 
@@ -44,7 +43,14 @@ public class ConfirmPackageActivity extends AppCompatActivity {
                 deliveryLat = Global.round(deliveryLat, 10);
                 deliveryLon = Global.round(deliveryLon, 10);
 
-                //send request
+                Intent intent = new Intent(getApplicationContext(), CalculatePriceActivity.class);
+                intent.putExtra("collectionAddress", collectionAddress);
+                intent.putExtra("collectionLat", collectionLat);
+                intent.putExtra("collectionLon", collectionLon);
+                intent.putExtra("deliveryAddress", deliveryAddress);
+                intent.putExtra("deliveryLat", deliveryLat);
+                intent.putExtra("deliveryLon", deliveryLon);
+                startActivity(intent);
 
             }
         });

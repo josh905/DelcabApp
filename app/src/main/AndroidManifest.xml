@@ -68,7 +68,11 @@
         <activity
             android:name=".DeliveryMapsActivity"
             android:label="@string/title_activity_delivery_maps" />
-        <activity android:name=".ConfirmPackageActivity"></activity>
+        <activity android:name=".ConfirmPackageActivity" />
+        <activity
+            android:name=".CalculatePriceActivity"
+            android:label="@string/title_activity_calculate_price" />
+        <activity android:name=".UploadPackage"></activity>
     </application>
 
 </manifest>

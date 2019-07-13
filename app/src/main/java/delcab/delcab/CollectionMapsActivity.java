@@ -63,7 +63,7 @@ public class CollectionMapsActivity extends FragmentActivity implements OnMapRea
 
         setInfoWindow(R.layout.custom_info_window);
 
-        Global.goTo(map, new LatLng(1.234,1.234), 6);
+        Global.goTo(map, Global.midlands(), 6);
 
         addressBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +120,7 @@ public class CollectionMapsActivity extends FragmentActivity implements OnMapRea
                 marker.showInfoWindow();
 
 
-                Global.goTo(map, collectionLoc, 18);
+                Global.goToTilt(map, collectionLoc, 18);
 
             }
 

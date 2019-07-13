@@ -14,10 +14,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import delcab.delcab.Print;
+
 
 public class FetchURL extends AsyncTask<String, Void, String> {
     Context mContext;
-    String directionMode = "driving";
     LatLng endLoc;
     GoogleMap map;
 
@@ -30,8 +31,8 @@ public class FetchURL extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... strings) {
         // For storing data from web service
+
         String data = "";
-        directionMode = strings[1];
         try {
             // Fetching the data from web service
             data = downloadUrl(strings[0]);
@@ -39,15 +40,19 @@ public class FetchURL extends AsyncTask<String, Void, String> {
         } catch (Exception e) {
             Log.d("Background Task", e.toString());
         }
+        Print.out("do");
         return data;
     }
 
     @Override
     protected void onPostExecute(String s) {
+        Print.out("post1");
         super.onPostExecute(s);
-        PointsParser parserTask = new PointsParser(map, endLoc, mContext, directionMode);
+        Print.out("post2");
+        PointsParser parserTask = new PointsParser(map, endLoc, mContext);
         // Invokes the thread for parsing the JSON data
         parserTask.execute(s);
+        Print.out("post3");
     }
 
     private String downloadUrl(String strUrl) throws IOException {
@@ -77,6 +82,7 @@ public class FetchURL extends AsyncTask<String, Void, String> {
             iStream.close();
             urlConnection.disconnect();
         }
+
         return data;
     }
 }
