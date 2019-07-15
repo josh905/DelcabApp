@@ -52,7 +52,7 @@ public class BusinessProfileActivity extends AppCompatActivity {
         holderName = getter.getString("holderName","");
         username = getter.getString("username","");
         busName = getter.getString("businessName","");
-        regNum = getter.getInt("regNum",0);
+        regNum = Integer.parseInt(getter.getString("regNum", ""));
         phone = getter.getString("phone","");
 
 

@@ -1,8 +1,10 @@
 package delcab.delcab;
 
+import android.content.Context;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,17 +19,15 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class PriceActivity extends AppCompatActivity {
 
     private String durationStr, distanceStr;
-    private TextView tv;
-    private double distance, duration, price, baseCharge, costPerMinute, costPerKm, weight;
-    private int test1;
+    private TextView tv, priceTV;
+    private double distanceNum, durationNum, price, baseCharge, costPerMinute, costPerKm, distanceInKm, durationInMins;
 
 
     @Override
@@ -35,91 +35,79 @@ public class PriceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_price);
 
-
-        startActivity(new Intent(this, SplashActivity.class));
-
-        Intent in = getIntent();
-        durationStr = in.getStringExtra("duration");
-        distanceStr = in.getStringExtra("distance");
-
-        weight = 0;
-        price = 0;
+        price = 0.00;
         baseCharge = 4.50;
         costPerMinute = 0.40;
         costPerKm = 0.46;
 
         tv = findViewById(R.id.tv);
+        priceTV = findViewById(R.id.priceTV);
 
-        tv.append("\n\nJourney distance: " + distanceStr + "\n\nEstimated journey length: " + durationStr + "\n\n");
-
-        //60 euro cut off point
-        if(durationStr.contains("hour")){
-
-            tv.append("This journey would cost over €70\n\nWe recommend you use a courier");
+        try{
+            distanceNum = Double.parseDouble(Global.get(getApplicationContext(), "distanceNum"));
+            durationNum = Double.parseDouble(Global.get(getApplicationContext(), "durationNum"));
         }
-        else if(durationStr.equals("1 min") || distanceStr.contains(" m")){
-            tv.append("Delcab does not deliver for journeys this short");
+        catch (Exception e){
+            e.printStackTrace();
+            Print.toast(getApplicationContext(), "Could not convert driving details");
+        }
+
+        distanceStr = Global.get(getApplicationContext(), "distanceStr");
+        durationStr = Global.get(getApplicationContext(), "durationStr");
+
+
+        Print.out(distanceNum + " --- " + durationNum);
+        Print.out(distanceStr + " --- " + durationStr);
+
+        tv.append("\nJourney distance: " + distanceStr + "\n\nEstimated journey length: " + durationStr + "\n\n");
+
+
+        if(distanceNum<1000 || durationNum<120){
+            tv.append("Delcab does not allow journeys this short");
         }
 
 
         else{
 
+            distanceInKm = distanceNum / 1000;
+            durationInMins = durationNum / 60;
 
-            String subDis = distanceStr.split(" ")[0];
-            String subDur = durationStr.split(" ")[0];
-            try{
-                distance = Double.parseDouble(subDis);
-                duration = Double.parseDouble(subDur);
+            price = baseCharge + (costPerMinute * durationInMins)
+                    + (costPerKm * distanceInKm);
 
+            price = Global.euro(price);
 
-            }
-            catch (NumberFormatException e){
-                e.printStackTrace();
-                Print.toast(this,"Could not parse double");
-            }
+            tv.append("This delivery will cost:");
 
-            if(duration < 2 || distance < 0.8){
-                tv.append("Delcab does not deliver for journeys this short");
-            }
+           // tv.append(Html.fromHtml("<b>€"+Double.toString(price)+"</b>"));
 
-            else{
-                price = baseCharge + (costPerMinute * duration)
-                        + (costPerKm * distance);
-
-                price = round(price,2);
-
-                tv.append("The estimated price for this journey is €"+price);
-
-            }
-
+            priceTV.append("€"+price);
 
 
         }
 
 
 
-
-        Button insertBtn = findViewById(R.id.insertBtn);
-        insertBtn.setOnClickListener(new View.OnClickListener() {
+        Button submitBtn = findViewById(R.id.submitBtn);
+        submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
                 //START of HTTP request
-                StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/test3.php", new Response.Listener<String>() {
+                StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/upload_package.php", new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            String dogman = jsonObject.getString("dogman");
-                            String catwoman = jsonObject.getString("catwoman");
-                            String foodstuff = jsonObject.getString("foodstuff");
-                            Print.out(dogman + " ... " + catwoman + " ... " + foodstuff);
 
-                            //store it in shared preferences here
+                            String message = jsonObject.getString("message");
 
-                        } catch (JSONException e) {
+                            Print.toast(getApplicationContext(), message);
+
+                        }
+                        catch (Exception e) {
                             e.printStackTrace();
+                            Print.toast(getApplicationContext(),"Could not upload package");
                         }
                     }
 
@@ -135,9 +123,17 @@ public class PriceActivity extends AppCompatActivity {
                         params.put("key1", RequestHeader.key1);
                         params.put("key2", RequestHeader.key2);
 
-                        params.put("dog", "kobi");
-                        params.put("cat", "tigger");
-                        params.put("food", "pizza");
+                        Context con = getApplicationContext();
+
+                        params.put("business_id", Global.get(con, "businessId"));
+                        params.put("business_name", Global.get(con, "businessName"));
+                        params.put("start_ad", Global.get(con, "collectionAddress"));
+                        params.put("end_ad", Global.get(con, "deliveryAddress"));
+                        params.put("start_lat", Global.get(con, "collectionLat"));
+                        params.put("start_lon", Global.get(con, "collectionLon"));
+                        params.put("end_lat", Global.get(con, "deliveryLat"));
+                        params.put("end_lon", Global.get(con, "deliveryLon"));
+                        params.put("price", Double.toString(price));
 
                         return params;
                     }
@@ -150,26 +146,8 @@ public class PriceActivity extends AppCompatActivity {
             }
         });
 
-        Button goToTestBtn = findViewById(R.id.goToTestBtn);
-        goToTestBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in = new Intent(PriceActivity.this, TestActivity.class);
-                startActivity(in);
-                finish();
-            }
-        });
-
-    }
 
 
-
-    private double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-
-        BigDecimal bd = new BigDecimal(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
     }
 
 

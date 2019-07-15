@@ -155,8 +155,8 @@ public class BusinessSelectActivity extends AppCompatActivity {
                                                     SharedPreferences.Editor editor = getSharedPreferences("DELCAB", MODE_PRIVATE).edit();
 
                                                     editor.putString("accountType", "business");
-                                                    editor.putInt("businessId", jsonObject.getInt("businessId"));
-                                                    editor.putInt("regNum", jsonObject.getInt("regNum"));
+                                                    editor.putString("businessId", jsonObject.getInt("businessId")+"");
+                                                    editor.putString("regNum", jsonObject.getInt("regNum")+"");
                                                     editor.putString("holderName", jsonObject.getString("holderName"));
                                                     editor.putString("businessName", jsonObject.getString("businessName"));
                                                     editor.putString("dateRegistered", jsonObject.getString("dateRegistered"));

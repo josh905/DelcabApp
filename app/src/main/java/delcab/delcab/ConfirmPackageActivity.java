@@ -4,9 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.model.LatLng;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 public class ConfirmPackageActivity extends AppCompatActivity {
@@ -26,14 +38,18 @@ public class ConfirmPackageActivity extends AppCompatActivity {
         deliveryLat = getIntent().getDoubleExtra("deliveryLat", 0);
         deliveryLon = getIntent().getDoubleExtra("deliveryLon", 0);
 
+
+
         Button conBtn = findViewById(R.id.conBtn);
 
         TextView colBox = findViewById(R.id.colBox);
         TextView delBox = findViewById(R.id.delBox);
 
-        colBox.setText("Collection Address:\n\n"+collectionAddress.replace(", ", ",\n"));
+        String colStr = "<b>Collection Address:</b><br><br>"+collectionAddress;
+        String delStr = "<b>Delivery Address:</b><br><br>"+deliveryAddress;
+        colBox.setText(Html.fromHtml(colStr));
+        delBox.setText(Html.fromHtml(delStr));
 
-        delBox.setText("Delivery Address:\n\n"+deliveryAddress.replace(", ", ",\n"));
 
         conBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,17 +59,43 @@ public class ConfirmPackageActivity extends AppCompatActivity {
                 deliveryLat = Global.round(deliveryLat, 10);
                 deliveryLon = Global.round(deliveryLon, 10);
 
-                Intent intent = new Intent(getApplicationContext(), CalculatePriceActivity.class);
-                intent.putExtra("collectionAddress", collectionAddress);
-                intent.putExtra("collectionLat", collectionLat);
-                intent.putExtra("collectionLon", collectionLon);
-                intent.putExtra("deliveryAddress", deliveryAddress);
-                intent.putExtra("deliveryLat", deliveryLat);
-                intent.putExtra("deliveryLon", deliveryLon);
-                startActivity(intent);
+
+                try {
+                    startActivity(new Intent(getApplicationContext(), SplashActivity.class));
+                    Global.drivingDetails(getApplicationContext(), new LatLng(collectionLat,collectionLon), new LatLng(deliveryLat,deliveryLon));
+                    new CountDownTimer(1000, 1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            Global.set(getApplicationContext(), "collectionAddress", collectionAddress);
+                            Global.set(getApplicationContext(), "deliveryAddress", deliveryAddress);
+                            Global.set(getApplicationContext(), "collectionLat", Double.toString(collectionLat));
+                            Global.set(getApplicationContext(), "collectionLon", Double.toString(collectionLon));
+                            Global.set(getApplicationContext(), "deliveryLat", Double.toString(deliveryLat));
+                            Global.set(getApplicationContext(), "deliveryLon", Double.toString(deliveryLon));
+
+                            startActivity(new Intent(getApplicationContext(), PriceActivity.class));
+                        }
+                    }.start();
+
+
+                } catch (Exception e) {
+                    Print.toast(getApplicationContext(), "Could not get driving details");
+                }
+
+
+
 
             }
         });
 
     }
+
+
+
+
 }

@@ -102,17 +102,7 @@ public class CollectionMapsActivity extends FragmentActivity implements OnMapRea
                 Print.out(collectionAddress);
                 windowText = collectionAddress.replace(", ", ",\n");
 
-                /*
-                StringBuilder sb = new StringBuilder();
-                for(int i=collectionAddress.length()-1; i>collectionAddress.length()-7; i--){
-                    sb.append(collectionAddress.charAt(i));
-                }
-                Print.out(sb.reverse().toString());
-                if(!sb.reverse().toString().equals("Ireland")){
-                    Print.toast(getApplicationContext(), "Address must be in Ireland");
-                    return;
-                }
-                */
+
 
                 map.clear();
 

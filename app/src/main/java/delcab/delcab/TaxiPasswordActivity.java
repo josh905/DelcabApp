@@ -45,7 +45,7 @@ public class TaxiPasswordActivity extends AppCompatActivity {
 
         truePass = getter.getString("password","");
 
-        taxiNum = getter.getInt("taxiNum",0);
+        taxiNum = Integer.parseInt(getter.getString("taxiNum", ""));
 
 
         confirmBtn.setOnClickListener(new View.OnClickListener() {

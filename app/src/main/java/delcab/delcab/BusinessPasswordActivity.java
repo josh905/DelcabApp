@@ -45,7 +45,7 @@ public class BusinessPasswordActivity extends AppCompatActivity {
 
         truePass = getter.getString("password","");
 
-        regNum = getter.getInt("regNum",0);
+        regNum = Integer.parseInt(getter.getString("regNum",""));
 
 
         confirmBtn.setOnClickListener(new View.OnClickListener() {

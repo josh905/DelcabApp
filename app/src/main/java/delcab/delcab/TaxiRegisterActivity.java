@@ -179,10 +179,10 @@ public class TaxiRegisterActivity extends AppCompatActivity {
                                                             SharedPreferences.Editor editor = getSharedPreferences("DELCAB", MODE_PRIVATE).edit();
 
                                                             editor.putString("accountType", "taxi");
-                                                            editor.putInt("taxiId", jsonObject.getInt("taxiId"));
+                                                            editor.putString("taxiId", jsonObject.getInt("taxiId")+"");
                                                             editor.putString("driverName", jsonObject.getString("driverName"));
                                                             editor.putString("username", jsonObject.getString("username"));
-                                                            editor.putInt("taxiNum", jsonObject.getInt("taxiNum"));
+                                                            editor.putString("taxiNum", jsonObject.getInt("taxiNum")+"");
                                                             editor.putString("phone", jsonObject.getString("phone"));
                                                             editor.putString("password", jsonObject.getString("password"));
                                                             editor.putString("dateJoined", jsonObject.getString("dateJoined"));

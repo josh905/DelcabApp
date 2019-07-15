@@ -50,7 +50,7 @@ public class TaxiProfileActivity extends AppCompatActivity {
 
         driverName = getter.getString("driverName","");
         username = getter.getString("username","");
-        taxiNum = getter.getInt("taxiNum",0);
+        taxiNum = Integer.parseInt(getter.getString("taxiNum", ""));
         phone = getter.getString("phone","");
 
 

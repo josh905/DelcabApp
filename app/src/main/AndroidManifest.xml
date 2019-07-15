@@ -72,7 +72,7 @@
         <activity
             android:name=".CalculatePriceActivity"
             android:label="@string/title_activity_calculate_price" />
-        <activity android:name=".UploadPackage"></activity>
+        <activity android:name=".UploadPackage" />
     </application>
 
 </manifest>
