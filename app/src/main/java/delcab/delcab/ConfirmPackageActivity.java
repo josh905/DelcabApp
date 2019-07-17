@@ -54,10 +54,10 @@ public class ConfirmPackageActivity extends AppCompatActivity {
         conBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                collectionLat = Global.round(collectionLat, 10);
-                collectionLon = Global.round(collectionLon, 10);
-                deliveryLat = Global.round(deliveryLat, 10);
-                deliveryLon = Global.round(deliveryLon, 10);
+                collectionLat = Global.round(collectionLat, 8);
+                collectionLon = Global.round(collectionLon, 8);
+                deliveryLat = Global.round(deliveryLat, 8);
+                deliveryLon = Global.round(deliveryLon, 8);
 
 
                 try {

@@ -8,8 +8,11 @@
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality. 
+         location permissions for the 'MyLocation' functionality.
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     -->
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -43,9 +46,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
         <activity android:name=".PriceActivity" />
         <activity android:name=".TestActivity" />
         <activity android:name=".BusinessAccountActivity" />
@@ -56,12 +56,16 @@
         <activity android:name=".TaxiRegisterActivity" />
         <activity android:name=".TaxiLoginActivity" />
         <activity android:name=".BusinessProfileActivity" />
-        <activity android:name=".BusinessHomeActivity" />
-        <activity android:name=".TaxiHomeActivity" />
+        <activity
+            android:name=".BusinessHomeActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".TaxiHomeActivity"
+            android:launchMode="singleTop" />
         <activity android:name=".TaxiProfileActivity" />
         <activity android:name=".TaxiPasswordActivity" />
         <activity android:name=".BusinessPasswordActivity" />
-        <activity android:name=".PackageActivity" />
+
         <activity
             android:name=".CollectionMapsActivity"
             android:label="@string/title_activity_collection_maps" />
@@ -69,10 +73,7 @@
             android:name=".DeliveryMapsActivity"
             android:label="@string/title_activity_delivery_maps" />
         <activity android:name=".ConfirmPackageActivity" />
-        <activity
-            android:name=".CalculatePriceActivity"
-            android:label="@string/title_activity_calculate_price" />
-        <activity android:name=".UploadPackage" />
+
     </application>
 
 </manifest>

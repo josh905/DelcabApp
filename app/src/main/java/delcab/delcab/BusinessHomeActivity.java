@@ -42,6 +42,7 @@ public class BusinessHomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 getApplicationContext().getSharedPreferences("DELCAB", 0).edit().clear().apply();
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                finish();
             }
         });
 

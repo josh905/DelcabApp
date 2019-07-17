@@ -102,7 +102,15 @@ public class PriceActivity extends AppCompatActivity {
 
                             String message = jsonObject.getString("message");
 
-                            Print.toast(getApplicationContext(), message);
+                            if(message.equals("completed with 1")){
+                                Print.toast(getApplicationContext(), "Package uploaded.");
+                            }
+                            else{
+                                Print.toast(getApplicationContext(), "Could not upload package");
+                            }
+
+                            startActivity(new Intent(getApplicationContext(), BusinessHomeActivity.class));
+                            finish();
 
                         }
                         catch (Exception e) {
