@@ -48,9 +48,9 @@ public class TaxiHomeActivity extends AppCompatActivity {
 
 
 
-        /*getApplicationContext().getSharedPreferences("DELCAB", 0).edit().clear().apply();
-        startActivity(new Intent(getApplicationContext(),MainActivity.class));
-        finish();*/
+//        getApplicationContext().getSharedPreferences("DELCAB", 0).edit().clear().apply();
+//        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+//        finish();
 
 
         runCount = 0;
@@ -136,263 +136,258 @@ public class TaxiHomeActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
 
-        if(!Global.get(getApplicationContext(), "testMode").equals("on")){
-
-            Global.set(getApplicationContext(),"testMode", "off");
-
-            Print.out("Test mode is off");
-
-            //attempts to start tracking location
-            //if its already tracking then nothing happens
+        //attempts to start tracking location
+        //if its already tracking then nothing happens
+        if(Global.get(getApplicationContext(), "testMode").equals("on")){
+            LocationTracker.getTracker().stop(getApplicationContext());
+        }
+        else{
             LocationTracker.getTracker().start(getApplicationContext());
-
-
-            //START of HTTP request
-            StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/get_package_details.php", new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-
-
-                    try {
-
-                        JSONObject jsonObject = new JSONObject(response);
-
-                        String message = jsonObject.getString("message");
-                        Print.out(message);
-
-
-                        if(message.equals("package found")){
-                            Print.out("package found .....");
-
-                            Global.set(getApplicationContext(), "packageId", jsonObject.getString("package_id"));
-                            Global.set(getApplicationContext(), "businessId", jsonObject.getString("business_id"));
-                            Global.set(getApplicationContext(), "businessName", jsonObject.getString("business_name"));
-                            Global.set(getApplicationContext(), "startAd", jsonObject.getString("start_ad"));
-                            Global.set(getApplicationContext(), "endAd", jsonObject.getString("end_ad"));
-                            Global.set(getApplicationContext(), "driverPay", jsonObject.getString("driver_pay"));
-                            Global.set(getApplicationContext(), "startLat", jsonObject.getString("start_lat"));
-                            Global.set(getApplicationContext(), "startLon", jsonObject.getString("start_lon"));
-                            Global.set(getApplicationContext(), "endLat", jsonObject.getString("end_lat"));
-                            Global.set(getApplicationContext(), "endLon", jsonObject.getString("end_lon"));
-                            end_lat = jsonObject.getString("end_lat");
-                            end_lon = jsonObject.getString("end_lon");
-
-
-
-
-
-                            if(runCount<1){
-                            //if(exec==null) {
-
-                                Runnable runnable = new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        runCount++;
-                                        if (runCount > 1) {
-
-                                            if(Global.get(getApplicationContext(), "packageId").equals("none") ||
-                                                    Global.get(getApplicationContext(), "packageId").equals("")){
-                                                try{
-                                                    Print.out("shutting down package is none");
-                                                    exec.shutdown();
-                                                }
-                                                catch(Exception ex){
-                                                    Print.out("cant shutdown package is none");
-                                                }
-                                                return;
-                                            }
-
-
-                                            LatLng end = new LatLng(Double.parseDouble(end_lat), Double.parseDouble(end_lon));
-
-                                            if (Global.get(getApplicationContext(), "testMode").equals("on")) {
-
-                                                Print.out("checked test mode and its on");
-
-                                                LatLng start = new LatLng(Double.parseDouble(Global.get(getApplicationContext(), "testLat")),
-                                                        Double.parseDouble(Global.get(getApplicationContext(), "testLon")));
-
-                                                try {
-                                                    Global.drivingDetailsToDestination(getApplicationContext(), start, end);
-                                                    //startActivity(new Intent(getApplicationContext(), SplashActivity.class));
-                                                } catch (IOException e) {
-                                                    Print.out("couldnt get directions");
-                                                }
-
-                                            } else { //if not in test mode
-
-                                                Print.out("checked test mode and its off");
-
-                                                LatLng start = LocationTracker.getTracker().getLatLng();
-
-                                                try {
-                                                    Global.drivingDetailsToDestination(getApplicationContext(), start, end);
-                                                    //startActivity(new Intent(getApplicationContext(), SplashActivity.class));
-                                                } catch (IOException e) {
-                                                    Print.out("couldnt get directions");
-                                                }
-
-                                            }
-
-
-
-                                            Print.out("about to parse dest");
-
-                                            double dest = 10000;
-
-                                            String details = Global.get(getApplicationContext(), "durationToDest");
-
-                                            Print.out("durdest is "+ details);
-                                            try{
-                                                dest = Double.parseDouble(details);
-                                            }
-                                            catch(Exception ex){
-                                                dest = 10000;
-                                            }
-
-                                            if (dest < 90) {
-
-                                                //if(packageId.equals("none")){
-                                                  //  runCount = 0;
-                                                 //   return;
-                                               // }
-
-                                                //START of HTTP request
-                                                StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/package_complete.php", new Response.Listener<String>() {
-                                                    @Override
-                                                    public void onResponse(String response) {
-                                                        try {
-                                                            JSONObject jsonObject = new JSONObject(response);
-
-
-                                                            String message = jsonObject.getString("message");
-
-                                                            Print.out("In proximity msg: " + message);
-
-                                                            if (message.equals("completed with 1")) {
-                                                                Print.toast(getApplicationContext(), "Package delivered.");
-
-                                                                Global.set(getApplicationContext(), "packageId", "");
-                                                                Global.set(getApplicationContext(), "businessId", "");
-                                                                Global.set(getApplicationContext(), "businessName", "");
-                                                                Global.set(getApplicationContext(), "startAd", "");
-                                                                Global.set(getApplicationContext(), "endAd", "");
-                                                                Global.set(getApplicationContext(), "driverPay", "");
-                                                                Global.set(getApplicationContext(), "startLat", "");
-                                                                Global.set(getApplicationContext(), "startLon", "");
-                                                                Global.set(getApplicationContext(), "endLat", "");
-                                                                Global.set(getApplicationContext(), "endLon", "");
-
-                                                                startActivity(new Intent(getApplicationContext(), SplashActivity.class));
-
-                                                            }
-
-
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
-
-                                                }, new Response.ErrorListener() {
-                                                    @Override
-                                                    public void onErrorResponse(VolleyError error) {
-                                                        Print.out("Volley error ... " + error.toString());
-                                                    }
-                                                }) {
-                                                    @Override
-                                                    protected Map<String, String> getParams() throws AuthFailureError {
-                                                        Map<String, String> params = new HashMap<>();
-                                                        params.put("key1", RequestHeader.key1);
-                                                        params.put("key2", RequestHeader.key2);
-
-                                                        params.put("package_id", Global.get(getApplicationContext(), "packageId"));
-
-
-                                                        return params;
-                                                    }
-                                                };
-
-                                                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-                                                requestQueue.add(stringRequest);
-                                                //END of HTTP request
-
-                                            }
-
-
-                                        }
-                                        else {
-                                            startActivity(new Intent(getApplicationContext(), SplashActivity.class));
-                                        }
-                                    }
-                                };
-
-                                exec = Executors.newScheduledThreadPool(1);
-
-                                //every 15 seconds, execute runnable
-                                exec.scheduleAtFixedRate(runnable, 0, 20, TimeUnit.SECONDS);
-                            }
-                            //}
-
-                        }
-
-                        else{
-                            Print.out("package not found .....");
-                            Global.set(getApplicationContext(), "packageId", "");
-                            Global.set(getApplicationContext(), "businessId", "");
-                            Global.set(getApplicationContext(), "businessName", "");
-                            Global.set(getApplicationContext(), "startAd", "");
-                            Global.set(getApplicationContext(), "endAd", "");
-                            Global.set(getApplicationContext(), "driverPay", "");
-                            Global.set(getApplicationContext(), "startLat", "");
-                            Global.set(getApplicationContext(), "startLon", "");
-                            Global.set(getApplicationContext(), "endLat", "");
-                            Global.set(getApplicationContext(), "endLon", "");
-                            try{
-                                exec.shutdown();
-                                //exec = null;
-                            }
-                            catch (Exception ex){
-                                Print.out("Can't shutdown exec");
-                            }
-
-                            runCount = 0;
-                        }
-
-
-
-                    }
-                    catch (Exception e) {
-                        e.printStackTrace();
-                        Print.out("Could not get package details");
-                    }
-                }
-
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Print.out("Volley error ... "+error.toString());
-                }
-            }){
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<>();
-                    params.put("key1", RequestHeader.key1);
-                    params.put("key2", RequestHeader.key2);
-
-                    params.put("taxi_id", Global.get(getApplicationContext(), "taxiId"));
-
-
-                    return params;
-                }
-            };
-
-            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            requestQueue.add(stringRequest);
-            //END of HTTP request
-
         }
 
 
+        //START of HTTP request
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/get_package_details.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+
+                try {
+
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    String message = jsonObject.getString("message");
+                    Print.out(message);
+
+
+                    if(message.equals("package found")){
+                        Print.out("package found .....");
+
+                        Global.set(getApplicationContext(), "packageId", jsonObject.getString("package_id"));
+                        Global.set(getApplicationContext(), "businessId", jsonObject.getString("business_id"));
+                        Global.set(getApplicationContext(), "businessName", jsonObject.getString("business_name"));
+                        Global.set(getApplicationContext(), "startAd", jsonObject.getString("start_ad"));
+                        Global.set(getApplicationContext(), "endAd", jsonObject.getString("end_ad"));
+                        Global.set(getApplicationContext(), "driverPay", jsonObject.getString("driver_pay"));
+                        Global.set(getApplicationContext(), "startLat", jsonObject.getString("start_lat"));
+                        Global.set(getApplicationContext(), "startLon", jsonObject.getString("start_lon"));
+                        Global.set(getApplicationContext(), "endLat", jsonObject.getString("end_lat"));
+                        Global.set(getApplicationContext(), "endLon", jsonObject.getString("end_lon"));
+                        end_lat = jsonObject.getString("end_lat");
+                        end_lon = jsonObject.getString("end_lon");
+
+
+
+
+
+                        if(runCount<1){
+                        //if(exec==null) {
+
+                            Runnable runnable = new Runnable() {
+                                @Override
+                                public void run() {
+                                    runCount++;
+                                    if (runCount > 1) {
+
+                                        if(Global.get(getApplicationContext(), "packageId").equals("none") ||
+                                                Global.get(getApplicationContext(), "packageId").equals("")){
+                                            try{
+                                                Print.out("shutting down package is none");
+                                                exec.shutdown();
+                                            }
+                                            catch(Exception ex){
+                                                Print.out("cant shutdown package is none");
+                                            }
+                                            return;
+                                        }
+
+
+                                        LatLng end = new LatLng(Double.parseDouble(end_lat), Double.parseDouble(end_lon));
+
+                                        if (Global.get(getApplicationContext(), "testMode").equals("on")) {
+
+                                            Print.out("checked test mode and its on");
+
+                                            LatLng start = new LatLng(Double.parseDouble(Global.get(getApplicationContext(), "testLat")),
+                                                    Double.parseDouble(Global.get(getApplicationContext(), "testLon")));
+
+                                            try {
+                                                Global.drivingDetailsToDestination(getApplicationContext(), start, end);
+                                                //startActivity(new Intent(getApplicationContext(), SplashActivity.class));
+                                            } catch (IOException e) {
+                                                Print.out("couldnt get directions");
+                                            }
+
+                                        } else { //if not in test mode
+
+                                            Print.out("checked test mode and its off");
+
+                                            LatLng start = LocationTracker.getTracker().getLatLng();
+
+                                            try {
+                                                Global.drivingDetailsToDestination(getApplicationContext(), start, end);
+                                                //startActivity(new Intent(getApplicationContext(), SplashActivity.class));
+                                            } catch (IOException e) {
+                                                Print.out("couldnt get directions");
+                                            }
+
+                                        }
+
+
+
+                                        Print.out("about to parse dest");
+
+                                        double dest = 10000;
+
+                                        String details = Global.get(getApplicationContext(), "durationToDest");
+
+                                        Print.out("durdest is "+ details);
+                                        try{
+                                            dest = Double.parseDouble(details);
+                                        }
+                                        catch(Exception ex){
+                                            dest = 10000;
+                                        }
+
+                                        if (dest < 90) {
+
+                                            //if(packageId.equals("none")){
+                                              //  runCount = 0;
+                                             //   return;
+                                           // }
+
+                                            //START of HTTP request
+                                            StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/package_complete.php", new Response.Listener<String>() {
+                                                @Override
+                                                public void onResponse(String response) {
+                                                    try {
+                                                        JSONObject jsonObject = new JSONObject(response);
+
+
+                                                        String message = jsonObject.getString("message");
+
+                                                        Print.out("In proximity msg: " + message);
+
+                                                        if (message.equals("completed with 1")) {
+                                                            Print.toast(getApplicationContext(), "Package delivered.");
+
+                                                            Global.set(getApplicationContext(), "packageId", "");
+                                                            Global.set(getApplicationContext(), "businessId", "");
+                                                            Global.set(getApplicationContext(), "businessName", "");
+                                                            Global.set(getApplicationContext(), "startAd", "");
+                                                            Global.set(getApplicationContext(), "endAd", "");
+                                                            Global.set(getApplicationContext(), "driverPay", "");
+                                                            Global.set(getApplicationContext(), "startLat", "");
+                                                            Global.set(getApplicationContext(), "startLon", "");
+                                                            Global.set(getApplicationContext(), "endLat", "");
+                                                            Global.set(getApplicationContext(), "endLon", "");
+
+                                                            startActivity(new Intent(getApplicationContext(), SplashActivity.class));
+
+                                                        }
+
+
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+
+                                            }, new Response.ErrorListener() {
+                                                @Override
+                                                public void onErrorResponse(VolleyError error) {
+                                                    Print.out("Volley error ... " + error.toString());
+                                                }
+                                            }) {
+                                                @Override
+                                                protected Map<String, String> getParams() throws AuthFailureError {
+                                                    Map<String, String> params = new HashMap<>();
+                                                    params.put("key1", RequestHeader.key1);
+                                                    params.put("key2", RequestHeader.key2);
+
+                                                    params.put("package_id", Global.get(getApplicationContext(), "packageId"));
+
+
+                                                    return params;
+                                                }
+                                            };
+
+                                            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                                            requestQueue.add(stringRequest);
+                                            //END of HTTP request
+
+                                        }
+
+
+                                    }
+                                    else {
+                                        startActivity(new Intent(getApplicationContext(), SplashActivity.class));
+                                    }
+                                }
+                            };
+
+                            exec = Executors.newScheduledThreadPool(1);
+
+                            //every 15 seconds, execute runnable
+                            exec.scheduleAtFixedRate(runnable, 0, 20, TimeUnit.SECONDS);
+                        }
+                        //}
+
+                    }
+
+                    else{
+                        Print.out("package not found .....");
+                        Global.set(getApplicationContext(), "packageId", "");
+                        Global.set(getApplicationContext(), "businessId", "");
+                        Global.set(getApplicationContext(), "businessName", "");
+                        Global.set(getApplicationContext(), "startAd", "");
+                        Global.set(getApplicationContext(), "endAd", "");
+                        Global.set(getApplicationContext(), "driverPay", "");
+                        Global.set(getApplicationContext(), "startLat", "");
+                        Global.set(getApplicationContext(), "startLon", "");
+                        Global.set(getApplicationContext(), "endLat", "");
+                        Global.set(getApplicationContext(), "endLon", "");
+                        try{
+                            exec.shutdown();
+                            //exec = null;
+                        }
+                        catch (Exception ex){
+                            Print.out("Can't shutdown exec");
+                        }
+
+                        runCount = 0;
+                    }
+
+
+
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                    Print.out("Could not get package details");
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Print.out("Volley error ... "+error.toString());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("key1", RequestHeader.key1);
+                params.put("key2", RequestHeader.key2);
+
+                params.put("taxi_id", Global.get(getApplicationContext(), "taxiId"));
+
+
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
+        //END of HTTP request
 
 
     }
