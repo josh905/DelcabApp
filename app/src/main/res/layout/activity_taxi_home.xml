@@ -12,7 +12,6 @@
     tools:context="delcab.delcab.TaxiHomeActivity"
     >
 
-
     <Button
         style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:background="@drawable/red_button"
@@ -94,5 +93,35 @@
         android:textSize="15sp"
         android:layout_gravity="center"
         android:textColor="@android:color/white" />
+
+    <Button
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:background="@drawable/red_button"
+        android:text="Test Mode On"
+        android:layout_width="100dp"
+        android:layout_alignLeft="@id/deliveriesImg"
+        android:layout_marginStart="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/profileBtn"
+        android:id="@+id/testOnBtn"
+        android:textSize="15sp"
+        android:textColor="@android:color/white" />
+
+    <Button
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:background="@drawable/red_button"
+        android:text="Test Mode Off"
+        android:layout_width="100dp"
+        android:layout_alignRight="@id/deliveriesImg"
+        android:layout_marginEnd="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/profileBtn"
+        android:id="@+id/testOffBtn"
+        android:textSize="15sp"
+        android:textColor="@android:color/white" />
+
+
 
 </RelativeLayout>

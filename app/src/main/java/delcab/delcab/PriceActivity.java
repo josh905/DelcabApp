@@ -64,27 +64,29 @@ public class PriceActivity extends AppCompatActivity {
 
         if(distanceNum<1000 || durationNum<120){
             tv.append("Delcab does not allow journeys this short");
+            return;
         }
 
+        distanceInKm = distanceNum / 1000;
+        durationInMins = durationNum / 60;
 
+        price = baseCharge + (costPerMinute * durationInMins)
+                + (costPerKm * distanceInKm);
+
+        price = Global.euro(price);
+
+        if(price>60){
+            tv.append("We recommend you use a courier because this will cost:");
+        }
         else{
-
-            distanceInKm = distanceNum / 1000;
-            durationInMins = durationNum / 60;
-
-            price = baseCharge + (costPerMinute * durationInMins)
-                    + (costPerKm * distanceInKm);
-
-            price = Global.euro(price);
-
             tv.append("This delivery will cost:");
-
-           // tv.append(Html.fromHtml("<b>€"+Double.toString(price)+"</b>"));
-
-            priceTV.append("€"+price);
-
-
         }
+
+
+
+       // tv.append(Html.fromHtml("<b>€"+Double.toString(price)+"</b>"));
+
+        priceTV.append("€"+price);
 
 
 
@@ -92,6 +94,11 @@ public class PriceActivity extends AppCompatActivity {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(distanceNum<1000 || durationNum<120){
+                    Print.toast(getApplicationContext(), "Journey too short");
+                    return;
+                }
 
                 //START of HTTP request
                 StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://delcab.ie/webservice/upload_package.php", new Response.Listener<String>() {
@@ -142,6 +149,8 @@ public class PriceActivity extends AppCompatActivity {
                         params.put("end_lat", Global.get(con, "deliveryLat"));
                         params.put("end_lon", Global.get(con, "deliveryLon"));
                         params.put("price", Double.toString(price));
+                        params.put("delcab_cut", Double.toString(Global.euro(price*0.05)));
+                        params.put("driver_pay", Double.toString(Global.euro(price*0.95)));
 
                         return params;
                     }

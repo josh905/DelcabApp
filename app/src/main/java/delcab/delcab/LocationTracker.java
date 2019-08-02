@@ -12,6 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONObject;
 
@@ -33,8 +34,18 @@ public class LocationTracker{
     private int runCount;
     private int status;
 
+    private LatLng latLng;
+
 
     private LocationTracker() {}
+
+    public int getStatus(){
+        return status;
+    }
+
+    public LatLng getLatLng(){
+        return latLng;
+    }
 
     public void start(final Context con){
 
@@ -42,6 +53,8 @@ public class LocationTracker{
             Print.out("Already on");
             return;
         }
+
+        Print.out("Location tracking started.");
 
         status = 1;
 
@@ -58,6 +71,8 @@ public class LocationTracker{
                 try {
                     lat = Global.round(location.getLatitude(),8);
                     lon = Global.round(location.getLongitude(),8);
+
+                    latLng = new LatLng(lat, lon);
 
                 }
                 catch (Exception e){
@@ -128,9 +143,9 @@ public class LocationTracker{
                             params.put("key1", RequestHeader.key1);
                             params.put("key2", RequestHeader.key2);
 
-                            params.put("package_id", Global.get(con, "packageId"));
-                            params.put("taxi_lat", Double.toString(lat));
-                            params.put("taxi_lon", Double.toString(lon));
+                            params.put("taxi_id", Global.get(con, "taxiId"));
+                            params.put("lat", Double.toString(lat));
+                            params.put("lon", Double.toString(lon));
 
                             return params;
                         }
@@ -157,6 +172,7 @@ public class LocationTracker{
         exec.shutdown();
         //locationListener = null;
         status = 0;
+        Print.out("Location tracking stopped.");
     }
 
     public static LocationTracker getTracker() {

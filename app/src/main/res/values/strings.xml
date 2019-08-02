@@ -19,6 +19,9 @@
     <string name="title_activity_delivery_maps">Map</string>
     <string name="title_activity_calculate_price">Map</string>
     <string name="title_activity_location">Map</string>
+    <string name="title_activity_taxi_package">Map</string>
+    <string name="title_activity_taxi_maps">Map</string>
+    <string name="title_activity_test_mode">Map</string>
 
     <!-- AIzaSyCSThA8atjfg0NQi7kKt-NTOh22BM4b8nw -->
 

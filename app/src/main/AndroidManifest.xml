@@ -65,7 +65,6 @@
         <activity android:name=".TaxiProfileActivity" />
         <activity android:name=".TaxiPasswordActivity" />
         <activity android:name=".BusinessPasswordActivity" />
-
         <activity
             android:name=".CollectionMapsActivity"
             android:label="@string/title_activity_collection_maps" />
@@ -73,7 +72,17 @@
             android:name=".DeliveryMapsActivity"
             android:label="@string/title_activity_delivery_maps" />
         <activity android:name=".ConfirmPackageActivity" />
-
+        <activity
+            android:name=".TaxiPackageActivity"
+            android:label="@string/title_activity_taxi_package" />
+        <activity android:name=".SelectPackageActivity" />
+        <activity android:name=".DeliveriesActivity" />
+        <activity
+            android:name=".TaxiMapsActivity"
+            android:label="@string/title_activity_taxi_maps" />
+        <activity
+            android:name=".TestModeActivity"
+            android:label="@string/title_activity_test_mode"></activity>
     </application>
 
 </manifest>

@@ -14,6 +14,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+
+
         Intent in = getIntent();
         int duration = in.getIntExtra("duration",0);
         if(duration==0)duration=1500;

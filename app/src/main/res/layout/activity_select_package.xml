@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="delcab.delcab.SelectPackageActivity"
+    android:background="@drawable/greyslash"
+    >
+
+
+    <TextView
+        android:text=""
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:textAlignment="center"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="420dp"
+        android:id="@+id/tv" />
+
+    <TextView
+        android:text=""
+        android:textSize="26sp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:gravity="center|top"
+        android:layout_below="@+id/tv"
+        android:layout_marginTop="-30dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/priceTV" />
+
+    <Button
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:background="@drawable/green_button"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/priceTV"
+        android:text="Deliver this Package"
+        android:layout_width="290dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="50dp"
+        android:id="@+id/deliverBtn"
+        android:textSize="15sp"
+        android:layout_gravity="center"
+        android:textColor="@android:color/white" />
+
+
+
+
+</RelativeLayout>

@@ -54,6 +54,16 @@ public class ConfirmPackageActivity extends AppCompatActivity {
         conBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                try{
+                    Double.parseDouble(Global.get(getApplicationContext(), "packageId"));
+                    Print.toast(getApplicationContext(), "You have an active package");
+                    return;
+                }
+                catch (NumberFormatException ex){
+                    Print.out("no package yet");
+                }
+
                 collectionLat = Global.round(collectionLat, 8);
                 collectionLon = Global.round(collectionLon, 8);
                 deliveryLat = Global.round(deliveryLat, 8);
