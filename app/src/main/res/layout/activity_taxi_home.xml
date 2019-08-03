@@ -38,7 +38,7 @@
         android:background="@drawable/red_button"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/deliveriesImg"
-        android:text="My Deliveries"
+        android:text="Active Delivery"
         android:layout_width="240dp"
         android:layout_height="56dp"
         android:layout_marginTop="5dp"

@@ -69,6 +69,11 @@ public class BusinessHomeActivity extends AppCompatActivity {
                 .show();
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+    }
+
 
 
 }

@@ -17,18 +17,5 @@
     android:layout_height="match_parent"
     tools:context=".TaxiMapsActivity" />
 
-    <Button
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:background="@drawable/red_button"
-        android:layout_centerHorizontal="true"
-        android:text="More Details"
-        android:layout_width="240dp"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:id="@+id/addressBtn"
-        android:textSize="15sp"
-        android:layout_gravity="center"
-        android:textColor="@android:color/white" />
 
 </RelativeLayout>

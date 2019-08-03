@@ -19,6 +19,7 @@ public class TaxiMapsActivity extends FragmentActivity implements OnMapReadyCall
 
     private GoogleMap map;
     private TextView titleView;
+    private LatLng start, end, cur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +38,37 @@ public class TaxiMapsActivity extends FragmentActivity implements OnMapReadyCall
 
         setInfoWindow(R.layout.custom_info_window);
 
-        LatLng start = new LatLng(Double.parseDouble(Global.get(getApplicationContext(), "startLat")),
+        start = new LatLng(Double.parseDouble(Global.get(getApplicationContext(), "startLat")),
                 Double.parseDouble(Global.get(getApplicationContext(), "startLon")));
 
-        LatLng end = new LatLng(Double.parseDouble(Global.get(getApplicationContext(), "endLat")),
+        end = new LatLng(Double.parseDouble(Global.get(getApplicationContext(), "endLat")),
                 Double.parseDouble(Global.get(getApplicationContext(), "endLon")));
 
-        Global.goTo(map, start, 9);
+        cur = null;
+
+        if(Global.get(getApplicationContext(), "testMode").equals("on")){
+            try{
+                cur = new LatLng(Double.parseDouble(Global.get(getApplicationContext(), "testLat")),
+                        Double.parseDouble(Global.get(getApplicationContext(), "testLon")));
+            }
+            catch(Exception ex){
+                Print.toast(getApplicationContext(), "Can't get test location");
+            }
+
+        }
+        else {
+            cur = LocationTracker.getTracker().getLatLng();
+        }
+
+        map.addMarker(new MarkerOptions().position(start).snippet("Collection Address:\n\n"+Global.get(getApplicationContext(), "startAd")).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+
+        map.addMarker(new MarkerOptions().position(cur).snippet("My location\n\n"+cur.toString()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+
+        map.addMarker(new MarkerOptions().position(end).snippet("Delivery Address:\n\n"+Global.get(getApplicationContext(), "endAd")).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+
+
+        Global.goTo(map, start, 11);
 
 
 

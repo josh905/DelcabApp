@@ -39,7 +39,7 @@
 
     <Button
         style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:background="@drawable/green_button"
+        android:background="@drawable/red_button"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/priceTV"
         android:text="Deliver this Package"

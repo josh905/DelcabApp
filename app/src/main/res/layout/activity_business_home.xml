@@ -39,7 +39,7 @@
         android:background="@drawable/green_button"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/packageImg"
-        android:text="My Packages"
+        android:text="Active Packages"
         android:layout_width="240dp"
         android:layout_height="56dp"
         android:layout_marginTop="5dp"
