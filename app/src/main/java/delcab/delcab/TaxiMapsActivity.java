@@ -97,9 +97,6 @@ public class TaxiMapsActivity extends FragmentActivity implements OnMapReadyCall
 
             });
 
-
-
-
         }
 
 

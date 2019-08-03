@@ -16,14 +16,14 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.GoogleMap;
 
-import org.json.JSONException;
+
 import org.json.JSONObject;
 
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import java.sql.Time;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +31,6 @@ import java.util.Map;
 
 public class Global {
 
-    private static String drivingResponse;
 
     public static void set(Context con, String key, String value){
         con.getSharedPreferences("DELCAB", Context.MODE_PRIVATE).edit()
@@ -46,25 +45,17 @@ public class Global {
 
 
 
-    public static String internetStatus() throws InterruptedException, IOException {
-        String status = "down";
-        //this is considered the only accurate way to see is user's internet available
-        //this is because they could be connected to WiFi or other network...
-        //but that network has no internet access
-        //so this provides the true test
-        final String command = "ping -c 1 google.com";
-        //only wait 0.5 seconds ... how?
-        if(Runtime.getRuntime().exec(command).waitFor() == 0) status = "up";
-
-        else status = "down";
-
-        return status;
-
-    }
 
     public static LatLng midlands(){
         return new LatLng(53.3888024,-7.8011687);
     }
+
+    public static LatLng dublin(){
+        return new LatLng(53.3498108,-6.2602805);
+    }
+
+
+
 
     public static void goTo(GoogleMap theMap, LatLng thePlace, int zoomLevel){
         CameraPosition pos = new CameraPosition.Builder().target(thePlace).zoom(zoomLevel).build();
@@ -85,14 +76,6 @@ public class Global {
         return new BigDecimal(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 
-    public static double crowDistance(){
-        return 0;
-    }
-
-
-    public static double timeInMins(Time start, Time now){
-        return 0;
-    }
 
 
     public static void drivingDetails(final Context con, LatLng start, LatLng end) throws IOException {

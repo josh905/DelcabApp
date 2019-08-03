@@ -16,10 +16,14 @@ public class BusinessHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_home);
 
+//        getApplicationContext().getSharedPreferences("DELCAB", 0).edit().clear().apply();
+//        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+//        finish();
+
         findViewById(R.id.packageBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(getApplicationContext(), BusinessMapsActivity.class));
             }
         });
 
@@ -67,11 +71,6 @@ public class BusinessHomeActivity extends AppCompatActivity {
                 })
                 .setNegativeButton("No", null)
                 .show();
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
     }
 
 

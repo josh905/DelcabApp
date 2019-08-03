@@ -47,7 +47,6 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".PriceActivity" />
-        <activity android:name=".TestActivity" />
         <activity android:name=".BusinessAccountActivity" />
         <activity android:name=".TaxiAccountActivity" />
         <activity android:name=".BusinessRegisterActivity" />
@@ -83,7 +82,10 @@
         <activity
             android:name=".TestModeActivity"
             android:label="@string/title_activity_test_mode" />
-        <activity android:name=".TaxiPackageDetailsActivity"></activity>
+        <activity android:name=".TaxiPackageDetailsActivity" />
+        <activity
+            android:name=".BusinessMapsActivity"
+            android:label="@string/title_activity_business_maps"></activity>
     </application>
 
 </manifest>
